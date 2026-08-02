@@ -26,11 +26,27 @@ This template intentionally reuses core governance and style assets from `inheri
 
 ## Template Version
 
-- Version: `v1.0.0`
-- Last updated: `2026-08-01`
+- Version: `v1.1.0`
+- Last updated: `2026-08-02`
 - Change policy: updates should be additive and backward-compatible when possible
 
 ## Quick Start
+
+Canonical build method:
+
+```powershell
+cmake --preset dev
+cmake --build --preset dev-build
+ctest --preset dev-test --output-on-failure
+```
+
+Canonical CI method:
+
+```powershell
+cmake --preset ci
+cmake --build --preset ci-build
+ctest --preset ci-test --output-on-failure
+```
 
 ```powershell
 cmake -DBUILD_TESTS=ON -P build_and_run_project.cmake
