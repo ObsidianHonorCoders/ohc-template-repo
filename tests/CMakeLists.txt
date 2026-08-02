@@ -1,5 +1,4 @@
 add_executable(test_${EXE_NAME}
-    test_main.cpp
     test_template_module.cpp
     ${CMAKE_SOURCE_DIR}/src/template_module.cpp
 )
@@ -15,4 +14,10 @@ else()
     target_compile_options(test_${EXE_NAME} PRIVATE -Wall -Wextra -Wpedantic)
 endif()
 
-add_test(NAME template_unit_tests COMMAND test_${EXE_NAME})
+target_link_libraries(test_${EXE_NAME}
+    PRIVATE
+        GTest::gtest_main
+)
+
+include(GoogleTest)
+gtest_discover_tests(test_${EXE_NAME})

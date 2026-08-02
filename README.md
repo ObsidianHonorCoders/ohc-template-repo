@@ -26,7 +26,7 @@ This template intentionally reuses core governance and style assets from `inheri
 
 ## Template Version
 
-- Version: `v1.1.0`
+- Version: `v1.2.0`
 - Last updated: `2026-08-02`
 - Change policy: updates should be additive and backward-compatible when possible
 
@@ -80,7 +80,6 @@ ohc-template-repo/
     template_module.cpp
   tests/
     CMakeLists.txt
-    test_main.cpp
     test_template_module.cpp
   CMakeLists.txt
   Doxyfile
