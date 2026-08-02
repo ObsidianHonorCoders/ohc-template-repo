@@ -1,0 +1,97 @@
+# ------------------------------------------------------------
+# C++ / Build artifacts
+# ------------------------------------------------------------
+*.d
+*.slo
+*.lo
+*.o
+*.obj
+*.gch
+*.pch
+*.ilk
+*.pdb
+*.dwo
+
+*.so
+*.dylib
+*.dll
+*.mod
+*.smod
+*.lai
+*.la
+*.a
+*.lib
+
+*.exe
+*.out
+*.app
+
+# ------------------------------------------------------------
+# CMake / Ninja / CTest
+# ------------------------------------------------------------
+**/build/
+**/build_*/
+**/cmake-build-*/
+
+CMakeCache.txt
+**/CMakeFiles/
+cmake_install.cmake
+CTestTestfile.cmake
+**/Testing/
+DartConfiguration.tcl
+compile_commands.json
+
+*.ninja
+.ninja_deps
+.ninja_log
+
+# ------------------------------------------------------------
+# Generated docs
+# ------------------------------------------------------------
+**/doc/
+**/html/
+**/latex/
+
+# ------------------------------------------------------------
+# IDE / Editor
+# ------------------------------------------------------------
+**/.vscode/
+**/.vs/
+**/.idea/
+
+# ------------------------------------------------------------
+# Python artifacts
+# ------------------------------------------------------------
+**/__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+**/.venv/
+**/venv/
+**/env/
+**/ENV/
+
+# Packaging / distribution
+**/dist/
+*.egg-info/
+**/.eggs/
+**/pip-wheel-metadata/
+
+# Tool caches
+**/.mypy_cache/
+**/.pytest_cache/
+**/.ruff_cache/
+.coverage
+.coverage.*
+**/htmlcov/
+
+# Jupyter
+**/.ipynb_checkpoints/
+
+# ------------------------------------------------------------
+# OS files
+# ------------------------------------------------------------
+.DS_Store
+Thumbs.db
+
