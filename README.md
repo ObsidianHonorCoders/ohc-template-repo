@@ -26,8 +26,8 @@ This template intentionally reuses core governance and style assets from `inheri
 
 ## Template Version
 
-- Version: `v1.2.0`
-- Last updated: `2026-08-02`
+- Version: `v1.3.0`
+- Last updated: `2026-08-03`
 - Change policy: updates should be additive and backward-compatible when possible
 
 ## Quick Start
