@@ -31,6 +31,7 @@
 # ------------------------------------------------------------
 **/build/
 **/build_*/
+**/build-*/
 **/cmake-build-*/
 
 # Local user-generated presets should stay out of version control

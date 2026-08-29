@@ -13,18 +13,6 @@ updates:
       - "dependencies"
       - "github-actions"
 
-  # CMake (via CMakePresets.json and CMakeLists.txt)
-  - package-ecosystem: "cmake"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "04:30"
-    open-pull-requests-limit: 5
-    labels:
-      - "dependencies"
-      - "cmake"
-
   # Docker (if devcontainer added)
   - package-ecosystem: "docker"
     directory: "/"

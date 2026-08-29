@@ -197,7 +197,7 @@ jobs:
 
       - name: Build docs
         run: |
-          cmake -S . -B build-docs -DBUILD_TESTING=OFF
+          cmake -S . -B build-docs -DBUILD_TESTING=OFF -DBUILD_DOCS=ON
           cmake --build build-docs --target doc
 
       - name: Upload documentation
