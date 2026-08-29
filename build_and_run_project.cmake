@@ -2,8 +2,8 @@
 ## @brief   Cross-platform CMake build and execution script
 ## @details Comprehensive build automation script that configures, compiles, and runs
 ##          a CMake-based C++ project across multiple platforms (Windows, Linux, macOS).
-##          The script automatically inform the host platform, available compilers,
-##          and detect system resources (CPU cores) to optimize the build process.
+##          The script automatically detects the host platform, available compilers,
+##          and system resources (CPU cores) to optimize the build process.
 ##
 ## @section workflow Workflow
 ## -# Calls detect_generator.cmake to get:
@@ -11,62 +11,76 @@
 ##    - DETECTED_ARCH:     The detected bit-depth of the host system.
 ##    - NUM_CORES:         The detected available processor cores amount.
 ##    - GENERATOR:         The detected generator candidate.
-## -# Configures the project with CMake (Release build only)
+## -# Configures the project with CMake (Release build by default)
 ## -# Builds the project using all available CPU cores in parallel
 ## -# Runs the compiled executable
 ## -# Reports build status and execution results
 ##
 ## @section features Features
 ## - **Cross-platform Support**:   Works seamlessly across different operating systems
-## - **Generator Selection**:      Chooses available build system (more generators may be added)
+## - **Generator Selection**:      Chooses available build system (Ninja, MinGW, VS)
 ## - **Parallel Compilation**:     Uses all system CPU cores to maximize build speed
 ## - **Error Handling**:           Graceful error reporting at each build stage
 ## - **Automatic Execution Test**: Runs platform-specific compiled binary after successful build
+## - **Test Integration**:         Optional test building and execution
 ##
 ## @section platforms Supported Platforms & Generators
 ## | Platform | Default         | Fallback 1      | Fallback 2     |
 ## |----------|-----------------|-----------------|----------------|
-## | Windows  | MinGW Makefiles | Ninja           | System Default |
+## | Windows  | Ninja           | MinGW Makefiles | Visual Studio  |
 ## | Linux    | Ninja           | System Default  | -              |
 ## | macOS    | Ninja           | System Default  | -              |
 ##
 ## @section usage Usage
 ## @code
 ##   cmake -P build_and_run_project.cmake
+##   cmake -DBUILD_TESTS=ON -P build_and_run_project.cmake
+##   cmake -DCMAKE_BUILD_TYPE=Debug -P build_and_run_project.cmake
 ## @endcode
 ##
 ## @section configuration Configuration
 ## Edit the following variables at the beginning of the script to customize:
-## - `EXE_NAME`:  Name of the executable to build      (default: ohc_template_app)
+## - `EXE_NAME`:  Name of the executable to build      (default: PROJECT_NAME_app)
 ## - `BUILD_DIR`: Output directory for build artifacts (default: build)
+## - `BUILD_TYPE`: Build type (Release, Debug, RelWithDebInfo, MinSizeRel)
+## - `BUILD_TESTS`: Build and run tests (ON/OFF)
 ##
 ## @section requirements Requirements
-## - CMake 3.15 or higher
+## - CMake 3.25 or higher
 ## - A C/C++ compiler (GCC, Clang, MSVC, etc.)
 ## - At least one build system generator available
 ##
 ## @section performance Performance Optimization
 ## This script maximizes build performance by:
 ## - Utilizing all available CPU cores for parallel compilation
-## - Using Release build configuration for optimized binaries
+## - Using Release build configuration for optimized binaries by default
 ## - Displaying compilation progress in real-time
 ##
 ## @author  Calileus
-## @version 1.0
-## @date    2026-02-08
+## @version 2.0
+## @date    2026-08-29
 
-cmake_minimum_required(VERSION 3.28)
-set(CMAKE_BUILD_TYPE "Release")
+cmake_minimum_required(VERSION 3.25)
+
+## @var     CMAKE_BUILD_TYPE
+## @brief   Build configuration type
+## @details Defaults to Release for optimized binaries
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Build type" FORCE)
+endif()
+set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "RelWithDebInfo" "MinSizeRel")
 
 ## @var     EXE_NAME
 ## @brief   Name of the executable to build
-## @details This is used as config parameter
-set(EXE_NAME "ohc_template_app")
+## @details Defaults to project name with _app suffix
+if(NOT DEFINED EXE_NAME)
+  set(EXE_NAME "${PROJECT_NAME}_app" CACHE STRING "Executable name" FORCE)
+endif()
 
 ## @var     BUILD_DIR
 ## @brief   Output directory for build artifacts
 ## @details All build files and the executable will be placed here
-set(BUILD_DIR "build")
+set(BUILD_DIR "build" CACHE STRING "Build directory" FORCE)
 
 ## @var     BUILD_TESTS
 ## @brief   Option to build and run tests
@@ -77,16 +91,16 @@ option(BUILD_TESTS "Build and run tests" ON)
 ## @brief                Constructs the path to the compiled executable
 ##                       Accounts for platform differences: .exe on Windows, bare name on Unix
 if(WIN32)
-    set(EXE_PATH "${BUILD_DIR}/${EXE_NAME}.exe")
+  set(EXE_PATH "${BUILD_DIR}/${EXE_NAME}.exe")
 else()
-    set(EXE_PATH "${BUILD_DIR}/${EXE_NAME}")
+  set(EXE_PATH "${BUILD_DIR}/${EXE_NAME}")
 endif()
 
 ## @section folderclean CMake Previous Build folder cleaning
 ## @brief               Erase the build folder if it exists
 if(EXISTS "${BUILD_DIR}")
-    message(STATUS "Cleaning: Removing old build directory...")
-    file(REMOVE_RECURSE "${BUILD_DIR}")
+  message(STATUS "Cleaning: Removing old build directory...")
+  file(REMOVE_RECURSE "${BUILD_DIR}")
 endif()
 file(MAKE_DIRECTORY "${BUILD_DIR}")
 
@@ -108,9 +122,9 @@ message("======= CMake Configuration Phase =====================================
 
 ## @var   CONF_ARGS
 ## @brief Arguments passed to cmake configuration
-##        Includes: build directory (-B), build type, executable name
+##        Includes: build directory (-B), build type, executable name, test option
 ##        Append: generator argument if one was automatically selected
-set(CONF_ARGS -B ${BUILD_DIR} -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DEXE_NAME=${EXE_NAME})
+set(CONF_ARGS -B ${BUILD_DIR} -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DEXE_NAME=${EXE_NAME} -DBUILD_TESTS=${BUILD_TESTS})
 if(NOT "${GENERATOR}" STREQUAL "")
     list(APPEND CONF_ARGS -G "${GENERATOR}")
 endif()
@@ -162,12 +176,25 @@ message(STATUS "Build completed successfully using all ${NUM_CORES} CPU cores")
 ## @section test_exec Test Executable Location and Verification
 ## @brief             Verify expected executable location and run it
 message("")
-message("======= Google Testing Suit Running Phase =====================================")
+message("======= Google Test Running Phase =============================================")
 if(BUILD_TESTS)
     message("Starting tests...")
-    execute_process( COMMAND ${BUILD_DIR}/tests/test_${EXE_NAME} RESULT_VARIABLE TEST_RESULT )
-    if(NOT TEST_RESULT EQUAL 0)
-        message(WARNING "Tests failed!")
+    # Test executable follows CMake project naming convention
+    if(WIN32)
+        set(TEST_EXE_PATH "${BUILD_DIR}/tests/${PROJECT_NAME}_tests.exe")
+    else()
+        set(TEST_EXE_PATH "${BUILD_DIR}/tests/${PROJECT_NAME}_tests")
+    endif()
+    if(EXISTS ${TEST_EXE_PATH})
+        execute_process( COMMAND ${TEST_EXE_PATH} RESULT_VARIABLE TEST_RESULT )
+        if(NOT TEST_RESULT EQUAL 0)
+            message(WARNING "Tests failed!")
+        else()
+            message(STATUS "All tests passed!")
+        endif()
+    else()
+        message(WARNING "Test executable not found at: ${TEST_EXE_PATH}")
+        message(STATUS "This is normal if tests are not configured or built separately.")
     endif()
 else()
     message("Tests disabled, skipping test execution...")
