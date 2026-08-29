@@ -1,0 +1,128 @@
+{
+  "version": 6,
+  "configurePresets": [
+    {
+      "name": "dev-container",
+      "inherits": "dev",
+      "displayName": "Dev Container Debug",
+      "binaryDir": "${sourceDir}/build/dev-container",
+      "cacheVariables": {
+        "CMAKE_CXX_COMPILER": "/usr/bin/clang++",
+        "CMAKE_C_COMPILER": "/usr/bin/clang",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+      }
+    },
+    {
+      "name": "dev-msvc",
+      "inherits": "dev",
+      "displayName": "MSVC Debug (Windows)",
+      "binaryDir": "${sourceDir}/build/dev-msvc",
+      "cacheVariables": {
+        "CMAKE_CXX_COMPILER": "cl",
+        "CMAKE_C_COMPILER": "cl"
+      },
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      }
+    },
+    {
+      "name": "dev-mingw",
+      "inherits": "dev",
+      "displayName": "MinGW Debug (Windows)",
+      "binaryDir": "${sourceDir}/build/dev-mingw",
+      "cacheVariables": {
+        "CMAKE_CXX_COMPILER": "g++",
+        "CMAKE_C_COMPILER": "gcc",
+        "CMAKE_GENERATOR": "MinGW Makefiles"
+      },
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      }
+    },
+    {
+      "name": "release",
+      "inherits": "ci",
+      "displayName": "Local Release Build",
+      "binaryDir": "${sourceDir}/build/release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "BUILD_TESTING": "OFF"
+      }
+    },
+    {
+      "name": "coverage",
+      "inherits": "dev",
+      "displayName": "Coverage Build",
+      "binaryDir": "${sourceDir}/build/coverage",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "BUILD_TESTING": "ON",
+        "CMAKE_CXX_FLAGS": "--coverage -fprofile-arcs -ftest-coverage",
+        "CMAKE_EXE_LINKER_FLAGS": "--coverage"
+      }
+    },
+    {
+      "name": "sanitize-address",
+      "inherits": "dev",
+      "displayName": "Address Sanitizer",
+      "binaryDir": "${sourceDir}/build/sanitize-address",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "BUILD_TESTING": "ON",
+        "CMAKE_CXX_FLAGS": "-fsanitize=address -fno-omit-frame-pointer",
+        "CMAKE_EXE_LINKER_FLAGS": "-fsanitize=address"
+      }
+    },
+    {
+      "name": "sanitize-thread",
+      "inherits": "dev",
+      "displayName": "Thread Sanitizer",
+      "binaryDir": "${sourceDir}/build/sanitize-thread",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "BUILD_TESTING": "ON",
+        "CMAKE_CXX_FLAGS": "-fsanitize=thread -fno-omit-frame-pointer",
+        "CMAKE_EXE_LINKER_FLAGS": "-fsanitize=thread"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "dev-container-build",
+      "configurePreset": "dev-container",
+      "configuration": "Debug"
+    },
+    {
+      "name": "release-build",
+      "configurePreset": "release",
+      "configuration": "Release"
+    },
+    {
+      "name": "coverage-build",
+      "configurePreset": "coverage",
+      "configuration": "Debug"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "dev-container-test",
+      "configurePreset": "dev-container",
+      "configuration": "Debug",
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "coverage-test",
+      "configurePreset": "coverage",
+      "configuration": "Debug",
+      "output": {
+        "outputOnFailure": true
+      }
+    }
+  ]
+}
