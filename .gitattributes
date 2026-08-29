@@ -1,0 +1,12 @@
+# Set default behavior for all text files to handle line endings automatically and normalize to LF in Git
+* text=auto eol=lf
+
+# Explicitly declare file types that MUST retain specific endings
+*.sh text eol=lf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Denote binary files so Git never attempts line ending conversion
+*.png binary
+*.jpg binary
+*.exe binary
