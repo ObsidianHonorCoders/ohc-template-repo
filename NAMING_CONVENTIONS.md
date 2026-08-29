@@ -57,21 +57,25 @@ This document defines the mandatory naming conventions for all files, directorie
 When creating a new repository from this template:
 
 1. **Rename project in CMakeLists.txt:**
+
    ```cmake
    project(your_project_name VERSION 1.0.0 LANGUAGES CXX)
    ```
 
 2. **Update executable name:**
+
    ```cmake
    set(EXE_NAME "your_app_name")
    ```
 
 3. **Update namespace in C++ files:**
+
    ```cpp
    namespace your_project { ... }
    ```
 
 4. **Update Doxyfile:**
+
    ```
    PROJECT_NAME = "Your Project Name"
    ```

@@ -13,20 +13,14 @@ repos:
       - id: check-json
       - id: check-toml
       - id: check-merge-conflict
-      - id: debug-logger
 
-  # clang-format for C/C++
+  # CMake formatting and linting
   - repo: https://github.com/cheshirekow/cmake-format-precommit
     rev: v0.6.13
     hooks:
       - id: cmake-format
         args: ["--in-place"]
         files: ^(CMakeLists\.txt|.*\.cmake)$
-
-  # CMake linting
-  - repo: https://github.com/cheshirekow/cmake_format
-    rev: v0.6.13
-    hooks:
       - id: cmake-lint
         args: ["--check", "CMakeLists.txt"]
         files: ^(CMakeLists\.txt|.*\.cmake)$
@@ -51,7 +45,11 @@ repos:
     rev: v2.3.0
     hooks:
       - id: codespell
-        args: ["--skip=*.png,*.jpg,*.jpeg,*.gif,*.svg,*.ico", "--ignore-words-list=ohc"]
+        args:
+          [
+            "--skip=*.png,*.jpg,*.jpeg,*.gif,*.svg,*.ico",
+            "--ignore-words-list=ohc",
+          ]
         files: \.(md|txt|rst|cmake|hpp|cpp|h|c)$
 
   # Check for large files

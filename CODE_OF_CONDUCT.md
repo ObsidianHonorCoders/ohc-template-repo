@@ -1,7 +1,6 @@
 # Code of Conduct - Obsidian Honor Coders
+
 <img width="224" alt="medalla-honor" src="https://github.com/user-attachments/assets/0ab6a9e8-c9b5-484e-96c4-ad0402239d23" />
-
-
 
 ## The Path of the Jaguar Warrior
 
@@ -10,6 +9,7 @@ As members of **Obsidian Honor Coders**, we are the noble protectors of our _dig
 ## Our Standards
 
 **Positive behaviors we champion:**
+
 - Focusing on what is best for the community
 - Showing empathy towards other community members
 - Respecting different viewpoints and experiences
@@ -19,6 +19,7 @@ As members of **Obsidian Honor Coders**, we are the noble protectors of our _dig
 - Code quality over quick fixes
 
 **Unacceptable behaviors:**
+
 - Trolling, insulting/derogatory comments, and personal or political attacks
 - Public or private harassment
 - Publishing others' private information without explicit permission

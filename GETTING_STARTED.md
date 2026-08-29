@@ -40,6 +40,7 @@ ctest --preset dev-test --output-on-failure
 ## Prerequisites
 
 ### Required (All Platforms)
+
 | Tool | Minimum Version | Install Command |
 |------|-----------------|-----------------|
 | **CMake** | 3.25+ | `winget install Kitware.CMake` / `apt install cmake` / `brew install cmake` |
@@ -56,6 +57,7 @@ ctest --preset dev-test --output-on-failure
 | **macOS** | Xcode Command Line Tools (Clang) | Homebrew GCC |
 
 ### Optional but Recommended
+
 | Tool | Purpose | Install |
 |------|---------|---------|
 | **clang-format** | Code formatting | Bundled with LLVM |
@@ -240,12 +242,14 @@ cmake -DEXE_NAME=myapp -P build_and_run_project.cmake
 **With Dev Container:** Just open the folder → "Reopen in Container" → everything works.
 
 **Without Dev Container:** Install these extensions:
+
 - **C/C++ Extension Pack** (Microsoft)
 - **CMake Tools** (Microsoft)
 - **clang-format** (xaver.clang-format)
 - **Doxygen Documentation Generator** (cschlosser.doxdocgen)
 
 **Settings (`.vscode/settings.json`)** are pre-configured for:
+
 - Format on save with clang-format
 - CMake configure on folder open
 - Test explorer integration
@@ -309,18 +313,22 @@ The `.github/workflows/ci.yml` runs **7 parallel jobs** on every push/PR:
 1. Create `include/myproject/new_module.hpp`
 2. Create `src/new_module.cpp`
 3. Add to `CMakeLists.txt`:
+
    ```cmake
    target_sources(myproject_lib PRIVATE src/new_module.cpp)
    ```
+
 4. Run `cmake --build --preset dev-build`
 
 ### Add a New Test
 
 1. Create `tests/test_new_module.cpp`
 2. Add to `tests/CMakeLists.txt`:
+
    ```cmake
    add_test(NAME new_module COMMAND myproject_tests)
    ```
+
    Or use `gtest_discover_tests()` (already configured)
 
 ### Enable Sanitizers Locally
