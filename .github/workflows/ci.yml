@@ -1,21 +1,237 @@
-name: ci
+name: CI
 
 on:
   push:
     branches: [main, master, develop]
   pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
+  pull-requests: write
+
+env:
+  CMAKE_VERSION: "3.28.0"
 
 jobs:
+  # Pre-commit checks (fast, runs first)
+  pre-commit:
+    name: Pre-commit Checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install pre-commit
+        run: pip install pre-commit
+
+      - name: Run pre-commit
+        run: pre-commit run --all-files --show-diff-on-failure
+
+  # Multi-platform build & test matrix
   build-test:
+    name: Build & Test (${{ matrix.os }}, ${{ matrix.compiler }})
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        include:
+          # Linux: GCC + Clang
+          - os: ubuntu-latest
+            compiler: gcc
+            cc: gcc
+            cxx: g++
+            cmake_args: "-DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc"
+          - os: ubuntu-latest
+            compiler: clang
+            cc: clang
+            cxx: clang++
+            cmake_args: "-DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang"
+          # Windows: MSVC + MinGW
+          - os: windows-latest
+            compiler: msvc
+            cc: cl
+            cxx: cl
+            cmake_args: ""
+          - os: windows-latest
+            compiler: mingw
+            cc: gcc
+            cxx: g++
+            cmake_args: "-DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc -G \"MinGW Makefiles\""
+          # macOS: Clang
+          - os: macos-latest
+            compiler: clang
+            cc: clang
+            cxx: clang++
+            cmake_args: "-DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang"
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Build and run project script
-        run: cmake -DBUILD_TESTS=ON -P build_and_run_project.cmake
+      - name: Install dependencies (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ninja-build clang-format-15
+          sudo ln -sf /usr/bin/clang-format-15 /usr/local/bin/clang-format
+
+      - name: Install dependencies (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          brew install ninja clang-format
+
+      - name: Configure CMake (Debug)
+        run: cmake --preset dev ${{ matrix.cmake_args }}
+
+      - name: Build (Debug)
+        run: cmake --build --preset dev-build --parallel ${{ matrix.cores || 4 }}
+
+      - name: Run Tests (Debug)
+        run: ctest --preset dev-test --output-on-failure
+
+      - name: Configure CMake (Release)
+        run: cmake --preset ci ${{ matrix.cmake_args }}
+
+      - name: Build (Release)
+        run: cmake --build --preset ci-build --parallel ${{ matrix.cores || 4 }}
+
+      - name: Run Tests (Release)
+        run: ctest --preset ci-test --output-on-failure
+
+      - name: Upload build artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-${{ matrix.os }}-${{ matrix.compiler }}
+          path: build/
+          retention-days: 7
+
+  # Static analysis
+  static-analysis:
+    name: Static Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install clang-tidy
+        run: sudo apt-get update && sudo apt-get install -y clang-tidy-15
+
+      - name: Configure with clang-tidy
+        run: |
+          cmake -S . -B build-analysis \
+            -DCMAKE_CXX_CLANG_TIDY="/usr/bin/clang-tidy-15;-checks=*,-modernize-use-trailing-return-type,-readability-identifier-length;-warnings-as-errors=*" \
+            -DCMAKE_BUILD_TYPE=Debug \
+            -DBUILD_TESTING=ON
+
+      - name: Build with analysis
+        run: cmake --build build-analysis --parallel 4
+
+      - name: Run cppcheck
+        run: |
+          sudo apt-get install -y cppcheck
+          cppcheck --enable=all --std=c++17 --inline-suppr \
+            --suppress=missingIncludeSystem \
+            -i build \
+            --error-exitcode=1 \
+            src/ include/ tests/
+
+  # Code formatting check
+  format-check:
+    name: Format Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install clang-format
+        run: sudo apt-get update && sudo apt-get install -y clang-format-15
+
+      - name: Check formatting
+        run: |
+          find src include tests -name "*.cpp" -o -name "*.hpp" -o -name "*.h" | \
+          xargs clang-format-15 --dry-run --Werror
+
+  # Security scanning
+  security:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+
+      - name: Upload Trivy results to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+  # Documentation build
+  docs:
+    name: Build Documentation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Doxygen
+        run: sudo apt-get update && sudo apt-get install -y doxygen graphviz
+
+      - name: Build docs
+        run: |
+          cmake -S . -B build-docs -DBUILD_TESTING=OFF
+          cmake --build build-docs --target doc
+
+      - name: Upload documentation
+        uses: actions/upload-artifact@v4
+        with:
+          name: documentation
+          path: build-docs/docs/html/
+          retention-days: 30
+
+  # Release (triggered on tags)
+  release:
+    name: Create Release
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [build-test, static-analysis, format-check, security, docs]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate changelog
+        uses: mikepenz/release-changelog-builder-action@v4
+        with:
+          configuration: ".github/changelog-config.json"
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: |
+            build-*/**/*.exe
+            build-*/**/*.so
+            build-*/**/*.dylib
+          body_path: CHANGELOG.md
