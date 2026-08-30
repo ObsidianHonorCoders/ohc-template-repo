@@ -65,7 +65,7 @@ jobs:
             compiler: mingw
             cc: gcc
             cxx: g++
-            cmake_args: "-DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc -G \"MinGW Makefiles\""
+            cmake_args: '-DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc -G "MinGW Makefiles"'
           # macOS: Clang
           - os: macos-latest
             compiler: clang
@@ -174,15 +174,15 @@ jobs:
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
-          scan-type: 'fs'
-          scan-ref: '.'
-          format: 'sarif'
-          output: 'trivy-results.sarif'
+          scan-type: "fs"
+          scan-ref: "."
+          format: "sarif"
+          output: "trivy-results.sarif"
 
       - name: Upload Trivy results to GitHub Security
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: 'trivy-results.sarif'
+          sarif_file: "trivy-results.sarif"
 
   # Documentation build
   docs:
