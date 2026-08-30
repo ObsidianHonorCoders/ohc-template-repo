@@ -33,7 +33,7 @@ jobs:
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: build-docs/doc/html
+          path: build-docs/docs/html
 
   deploy:
     name: Deploy to GitHub Pages
