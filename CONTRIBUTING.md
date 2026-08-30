@@ -1,6 +1,7 @@
 # Contributing Guidelines
 
-Thank you for contributing. This document defines the expected workflow and quality bar for changes in repositories based on this template.
+Thank you for contributing. This document defines the expected workflow and
+quality bar for changes in repositories based on this template.
 
 ## Getting Started
 
@@ -8,7 +9,7 @@ Thank you for contributing. This document defines the expected workflow and qual
 2. Create a branch from the target integration branch.
 3. Implement one logical change per branch.
 4. Add or update tests and documentation as needed.
-5. Open a Pull Request using `.github/pull_request_template.md`.
+5. Open a pull request using `.github/pull_request_template.md`.
 
 ## Branching Strategy
 
@@ -95,7 +96,8 @@ ctest --test-dir build --output-on-failure
 
 ## Licensing
 
-By contributing, you agree that your contributions are licensed under the project license declared in `LICENSE`.
+By contributing, you agree that your contributions are licensed under the
+project license declared in `LICENSE`.
 
 ## Questions
 
