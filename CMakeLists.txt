@@ -106,8 +106,17 @@ endif()
 if(BUILD_DOCS)
   find_package(Doxygen QUIET)
   if(DOXYGEN_FOUND)
+    set(DOXYGEN_PROJECT_LOGO_PATH "${CMAKE_CURRENT_SOURCE_DIR}/docs/DoxyPage/OHC-logo-lowresolution.png")
+    set(DOXYGEN_PROJECT_ICON_PATH "${CMAKE_CURRENT_SOURCE_DIR}/docs/DoxyPage/OHC-logo-lowresolution.png")
+    set(DOXYGEN_HTML_EXTRA_STYLESHEET "${CMAKE_CURRENT_SOURCE_DIR}/docs/DoxyPage/custom.css")
+
+    configure_file(
+      ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile
+      ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
+      @ONLY)
+
     doxygen_add_docs(
-      docs ALL ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile
+      docs ALL ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
       WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
       COMMENT "Generating API documentation with Doxygen")
   else()
