@@ -30,10 +30,19 @@ jobs:
           cmake -S . -B build-docs -DBUILD_TESTING=OFF -DBUILD_DOCS=ON
           cmake --build build-docs --target docs
 
+      - name: Debug output directory
+        run: |
+          echo "=== build-docs contents ==="
+          find build-docs -type f -name "*.html" | head -20
+          echo "=== build-docs tree ==="
+          ls -la build-docs/
+          echo "=== looking for html ==="
+          find build-docs -name html -type d
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: build-docs/**/html
+          path: build-docs/doc/html
 
   deploy:
     name: Deploy to GitHub Pages
