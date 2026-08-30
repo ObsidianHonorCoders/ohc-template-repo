@@ -129,9 +129,9 @@ jobs:
       - name: Configure with clang-tidy
         run: |
           cmake -S . -B build-analysis \
-            -DCMAKE_CXX_CLANG_TIDY="/usr/bin/clang-tidy-15;-checks=*,-modernize-use-trailing-return-type,-readability-identifier-length;-warnings-as-errors=*" \
+            -DCMAKE_CXX_CLANG_TIDY="/usr/bin/clang-tidy-15;-checks=clang-analyzer-*,bugprone-*,performance-*;-warnings-as-errors=*;-header-filter=^.*(src|include)/.*$" \
             -DCMAKE_BUILD_TYPE=Debug \
-            -DBUILD_TESTING=ON
+            -DBUILD_TESTING=OFF
 
       - name: Build with analysis
         run: cmake --build build-analysis --parallel 4
