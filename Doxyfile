@@ -218,11 +218,9 @@ SHORT_NAMES            = NO
 JAVADOC_AUTOBRIEF      = NO
 
 # If the JAVADOC_BANNER tag is set to YES then Doxygen will interpret a line
-# such as
-# /***************
-# as being the beginning of a Javadoc-style comment "banner". If set to NO, the
-# Javadoc-style will behave just like regular comments and it will not be
-# interpreted by Doxygen.
+# such as an opening Javadoc banner marker as the beginning of a Javadoc-style
+# comment banner. If set to NO, the Javadoc-style will behave just like regular
+# comments and it will not be interpreted by Doxygen.
 # The default value is: NO.
 
 JAVADOC_BANNER         = NO
@@ -1144,7 +1142,8 @@ EXCLUDE_SYMLINKS       = NO
 # certain files from those directories.
 #
 # Note that the wildcards are matched against the file with absolute path, so to
-# exclude all test directories for example use the pattern */test/*
+# exclude all test directories for example use the pattern star slash test star
+# slash in a glob expression.
 
 EXCLUDE_PATTERNS       =
 
