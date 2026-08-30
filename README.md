@@ -1,6 +1,7 @@
 # OHC Template Repo
 
-A simple, production-ready C++ starter template for libraries and small applications.
+A simple, production-ready C++ starter template for libraries and small
+applications.
 
 ## What is included
 
@@ -22,7 +23,8 @@ A simple, production-ready C++ starter template for libraries and small applicat
 
 ```powershell
 # 1) personalize the template
-.\scripts\rename-template.ps1 -ProjectName "MyProject" -Author "Your Name" -Email "you@example.com" -GitHubOwner "your-github-user"
+.\scripts\rename-template.ps1 -ProjectName "MyProject" -Author "Your Name" \
+  -Email "you@example.com" -GitHubOwner "your-github-user"
 
 # 2) build and test
 cmake --preset dev
@@ -30,12 +32,15 @@ cmake --build --preset dev-build
 ctest --preset dev-test --output-on-failure
 ```
 
-For the full onboarding flow, see [GETTING_STARTED.md](GETTING_STARTED.md).
+For the full onboarding flow, see
+[GETTING_STARTED.md](GETTING_STARTED.md).
 
 ## Core docs
 
-- [GETTING_STARTED.md](GETTING_STARTED.md) — first-run workflow and troubleshooting
-- [NAMING_CONVENTIONS.md](NAMING_CONVENTIONS.md) — naming rules and project cleanup guidance
+- [GETTING_STARTED.md](GETTING_STARTED.md) — first-run workflow and
+  troubleshooting
+- [NAMING_CONVENTIONS.md](NAMING_CONVENTIONS.md) — naming rules and project
+  cleanup guidance
 - [CHANGELOG.md](CHANGELOG.md) — release history
 - [docs/release_checklist.md](docs/release_checklist.md) — release checklist
 
@@ -75,6 +80,9 @@ For the full onboarding flow, see [GETTING_STARTED.md](GETTING_STARTED.md).
 2. Replace the sample module with your real domain code.
 3. Keep the standard governance files unless you intentionally customize them.
 4. Validate locally with the dev preset before pushing.
-5. Publish using the release checklist in [docs/release_checklist.md](docs/release_checklist.md).
+5. Publish using the release checklist in
+   [docs/release_checklist.md](docs/release_checklist.md).
 
-This repository is intentionally lean: the main onboarding path is short, the build flow is standard, and the project rules are documented without extra noise.
+This repository is intentionally lean: the main onboarding path is short, the
+build flow is standard, and the project rules are documented without extra
+noise.

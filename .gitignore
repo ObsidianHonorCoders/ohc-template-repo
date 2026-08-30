@@ -29,6 +29,7 @@
 # ------------------------------------------------------------
 # CMake / Ninja / CTest
 # ------------------------------------------------------------
+**/bin/
 **/build/
 **/build_*/
 **/build-*/
@@ -73,9 +74,16 @@ compile_commands.json
 
 # Virtual environments
 **/.venv/
+**/.venv*/
 **/venv/
+**/venv*/
 **/env/
 **/ENV/
+**/.python-version
+
+# Local project tooling environments
+.venv-precommit/
+**/.venv-precommit/
 
 # Packaging / distribution
 **/dist/
