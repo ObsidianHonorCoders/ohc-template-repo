@@ -1,10 +1,12 @@
 # Security Policy
 
-This repository is maintained by a small team. We aim to handle security reports quickly and responsibly, while balancing limited maintainer capacity.
+This repository is maintained by a small team. We aim to handle security
+reports quickly and responsibly while balancing limited maintainer capacity.
 
 ## Supported Versions
 
-As a template repository, security updates are applied to the `main` branch baseline.
+As a template repository, security updates are applied to the `main` branch
+baseline.
 
 - `main`: supported
 - historical snapshots/tags: best effort only
@@ -34,7 +36,8 @@ Response times are realistic rather than enterprise-scale:
 - Fix target for high/critical issues: 14-30 days (best effort)
 - Fix target for medium/low issues: scheduled in normal backlog
 
-If maintainers are unavailable (holidays/incidents), timelines may extend. We will still acknowledge and communicate status updates.
+If maintainers are unavailable (holidays/incidents), timelines may extend. We
+will still acknowledge and communicate status updates.
 
 ## Disclosure Process
 
@@ -46,7 +49,8 @@ If maintainers are unavailable (holidays/incidents), timelines may extend. We wi
 
 ## Scope Notes for Template Consumers
 
-Projects created from this template should replace this file with project-specific:
+Projects created from this template should replace this file with
+project-specific:
 
 - Security contacts
 - Support windows
