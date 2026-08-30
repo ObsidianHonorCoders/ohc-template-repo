@@ -6,7 +6,7 @@ project(
   VERSION 2.0.0
   LANGUAGES CXX
   DESCRIPTION "OHC C++ Project Template"
-  HOMEPAGE_URL "https://github.com/Calileus/ohc-template-repo")
+  HOMEPAGE_URL "https://github.com/ObsidianHonorCoders/ohc-template-repo")
 
 # C++ Standard
 set(CMAKE_CXX_STANDARD 17)
@@ -106,12 +106,9 @@ endif()
 if(BUILD_DOCS)
   find_package(Doxygen QUIET)
   if(DOXYGEN_FOUND)
-    set(DOXYGEN_INPUT
-        "${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR}/src")
-    set(DOXYGEN_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/docs")
     doxygen_add_docs(
-      doc ALL ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile
-      WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+      docs ALL ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile
+      WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
       COMMENT "Generating API documentation with Doxygen")
   else()
     message(WARNING "Doxygen not found, documentation target disabled")
