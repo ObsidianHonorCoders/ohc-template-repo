@@ -198,7 +198,7 @@ jobs:
       - name: Build docs
         run: |
           cmake -S . -B build-docs -DBUILD_TESTING=OFF -DBUILD_DOCS=ON
-          cmake --build build-docs --target doc
+          cmake --build build-docs --target docs
 
       - name: Upload documentation
         uses: actions/upload-artifact@v7
