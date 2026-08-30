@@ -204,7 +204,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: documentation
-          path: build-docs/docs/html/
+          path: build-docs/doc/html/
           retention-days: 30
 
   # Release (triggered on tags)
