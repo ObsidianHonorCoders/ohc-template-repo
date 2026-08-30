@@ -129,6 +129,7 @@ jobs:
       - name: Configure with clang-tidy
         run: |
           cmake -S . -B build-analysis \
+            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
             -DCMAKE_CXX_CLANG_TIDY="/usr/bin/clang-tidy-15;-checks=clang-analyzer-*,bugprone-*,performance-*;-warnings-as-errors=*;-header-filter=^.*(src|include)/.*$" \
             -DCMAKE_BUILD_TYPE=Debug \
             -DBUILD_TESTING=OFF
@@ -139,12 +140,9 @@ jobs:
       - name: Run cppcheck
         run: |
           sudo apt-get install -y cppcheck
-          cppcheck --enable=all --std=c++17 --inline-suppr \
-            -I include \
-            -I src \
-            -i build \
-            --error-exitcode=1 \
-            src/ include/ tests/
+          cppcheck --project=build-analysis/compile_commands.json \
+            --enable=all --std=c++17 --inline-suppr \
+            --error-exitcode=1
 
   # Code formatting check
   format-check:
