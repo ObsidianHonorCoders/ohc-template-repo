@@ -67,7 +67,13 @@ endif()
 include(FetchContent)
 
 # ---- Main Library Target ----
-add_library(template_module STATIC src/template_module.cpp)
+add_library(template_module
+  STATIC
+    src/common/string_utils.cpp
+    src/architecture/acquisition.cpp
+    src/architecture/processing.cpp
+    src/architecture/output.cpp
+    src/compatibility_api.cpp)
 
 target_include_directories(
   template_module PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -82,7 +88,7 @@ set_target_properties(
              VISIBILITY_INLINES_HIDDEN ON)
 
 # ---- Main Executable ----
-add_executable(${EXE_NAME} main.cpp)
+add_executable(${EXE_NAME} src/app/main.cpp)
 
 target_link_libraries(${EXE_NAME} PRIVATE template_module)
 
