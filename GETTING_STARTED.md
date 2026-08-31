@@ -3,6 +3,10 @@
 This guide will get you from zero to a working, personalized C++ project in
 **under 5 minutes**.
 
+This template is designed for a single project per repository. Keep one product,
+one primary executable, and one clear source tree unless you intentionally move
+beyond this template’s default scope.
+
 ---
 
 ## TL;DR - 30 Second Start
@@ -517,10 +521,18 @@ container guide.
 ## Template Structure Overview
 
 ```text
-ohc-template-repo/
+.
 ├── .devcontainer/
+│   ├── devcontainer.json
+│   └── setup.sh
 ├── .github/
 │   ├── ISSUE_TEMPLATE/
+│   │   ├── bug_report.md
+│   │   ├── config.yml
+│   │   └── feature_request.md
+│   ├── PULL_REQUEST_TEMPLATE/
+│   │   ├── default.md
+│   │   └── release.md
 │   ├── workflows/
 │   │   ├── ci.yml
 │   │   └── docs.yml
@@ -528,41 +540,56 @@ ohc-template-repo/
 │   ├── dependabot.yml
 │   └── pull_request_template.md
 ├── cmake/
+│   └── ohc_template_repo-config.cmake.in
 ├── docs/
+│   ├── DoxyPage/
+│   │   ├── custom.css
+│   │   ├── Doxyfile
+│   │   └── OHC-logo-lowresolution.png
+│   ├── ARCHITECTURE.md
 │   ├── CHANGELOG.md
 │   ├── CODE_OF_CONDUCT.md
 │   ├── CONTRIBUTING.md
+│   ├── LICENSE
 │   ├── NAMING_CONVENTIONS.md
 │   ├── README.md
-│   ├── SECURITY.md
-│   ├── release_checklist.md
-│   └── DoxyPage/
+│   └── SECURITY.md
 ├── include/
-│   └── template_module.hpp
-├── src/
-│   └── template_module.cpp
-├── tests/
-│   ├── CMakeLists.txt
-│   └── test_template_module.cpp
+│   ├── architecture/
+│   │   ├── acquisition.hpp
+│   │   ├── output.hpp
+│   │   └── processing.hpp
+│   ├── common/
+│   │   └── string_utils.hpp
+│   └── compatibility_api.hpp
 ├── scripts/
 │   ├── rename-template.ps1
 │   └── rename-template.sh
+├── src/
+│   ├── app/
+│   │   └── main.cpp
+│   ├── architecture/
+│   │   ├── acquisition.cpp
+│   │   ├── output.cpp
+│   │   └── processing.cpp
+│   ├── common/
+│   │   └── string_utils.cpp
+│   └── compatibility_api.cpp
+├── tests/
+│   ├── integration/
+│   │   └── test_pipeline.cpp
+│   ├── unit/
+│   │   └── test_template_module.cpp
+│   └── CMakeLists.txt
 ├── .clang-format
 ├── .editorconfig
+├── .gitattributes
 ├── .gitignore
 ├── .pre-commit-config.yaml
+├── .secrets.baseline
 ├── CMakeLists.txt
 ├── CMakePresets.json
-├── GETTING_STARTED.md
-├── LICENSE
-├── main.cpp
-├── .secrets.baseline
-└── docs/
-    ├── DoxyPage/
-    │   ├── Doxyfile
-    │   ├── custom.css
-    │   └── OHC-logo-lowresolution.png
-    └── ...
+└── GETTING_STARTED.md
 ```
 
 ---
