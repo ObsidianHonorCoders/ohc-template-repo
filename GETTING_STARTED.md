@@ -382,7 +382,9 @@ clang-format --dry-run --Werror src/*.cpp include/*.hpp tests/*.cpp main.cpp
 # clang-tidy
 cmake -S . -B build-analysis \
   -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
-  -DCMAKE_CXX_CLANG_TIDY="/usr/bin/clang-tidy-15;-checks=clang-analyzer-*,bugprone-*,performance-*;-warnings-as-errors=*;-header-filter=^.*(src|include)/.*$" \
+  -DCMAKE_CXX_CLANG_TIDY="/usr/bin/clang-tidy-15;-checks=clang-analyzer-*,\
+  bugprone-*,performance-*;-warnings-as-errors=*;\
+  -header-filter=^.*(src|include)/.*$" \
   -DCMAKE_BUILD_TYPE=Debug \
   -DBUILD_TESTING=OFF
 cmake --build build-analysis --parallel 4
