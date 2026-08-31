@@ -162,7 +162,6 @@ declare -A REPLACEMENTS=(
 FILES_TO_PROCESS=(
     "CMakeLists.txt"
     "CMakePresets.json"
-    "cmakehelpers/quick_build.cmake"
     "README.md"
     "docs/DoxyPage/Doxyfile"
     "SECURITY.md"
@@ -182,7 +181,6 @@ FILES_TO_PROCESS=(
     ".github/ISSUE_TEMPLATE/config.yml"
     ".github/workflows/ci.yml"
     ".github/dependabot.yml"
-    "cmakehelpers/detect_generator.cmake"
     "docs/release_checklist.md"
     "NAMING_CONVENTIONS.md"
 )

@@ -224,24 +224,6 @@ cmake --build --preset dev-build --target clang-tidy
 cppcheck --enable=all --std=c++17 --inline-suppr src/ include/
 ```
 
-### Standalone Build Script
-
-For quick one-off builds without presets:
-
-```bash
-# Default release build
-cmake -P cmakehelpers/quick_build.cmake
-
-# Debug build
-cmake -DCMAKE_BUILD_TYPE=Debug -P cmakehelpers/quick_build.cmake
-
-# Without tests
-cmake -DBUILD_TESTS=OFF -P cmakehelpers/quick_build.cmake
-
-# Custom executable name
-cmake -DEXE_NAME=myapp -P cmakehelpers/quick_build.cmake
-```
-
 ---
 
 ## IDE Setup
@@ -534,7 +516,6 @@ ohc-template-repo/
 │   ├── dependabot.yml
 │   └── pull_request_template.md
 ├── cmake/
-├── cmakehelpers/
 ├── docs/
 │   ├── CHANGELOG.md
 │   ├── CODE_OF_CONDUCT.md
@@ -554,9 +535,6 @@ ohc-template-repo/
 ├── scripts/
 │   ├── rename-template.ps1
 │   └── rename-template.sh
-├── cmakehelpers/
-│   ├── quick_build.cmake
-│   └── detect_generator.cmake
 ├── .clang-format
 ├── .editorconfig
 ├── .gitignore

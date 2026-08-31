@@ -6,9 +6,9 @@ symbols in this repository.
 ## File and Directory Naming
 
 - Directories in this repo are generally lowercase and compact: `cmake/`,
-  `cmakehelpers/`, `docs/`, `src/`, `include/`, `tests/`
-- CMake files: `snake_case.cmake`
-  - Example: `detect_generator.cmake`
+  `docs/`, `src/`, `include/`, `tests/`
+- CMake files: `snake_case.cmake` or `project-config.cmake.in`
+  - Example: `ohc_template_repo-config.cmake.in`
 - C++ headers: `snake_case.hpp`
   - Example: `template_module.hpp`
 - C++ sources: `snake_case.cpp`

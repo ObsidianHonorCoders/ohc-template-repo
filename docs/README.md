@@ -77,9 +77,6 @@ For the full onboarding flow, see
 │   └── pull_request_template.md
 ├── cmake/
 │   └── ohc_template_repo-config.cmake.in
-├── cmakehelpers/
-│   ├── quick_build.cmake
-│   └── detect_generator.cmake
 ├── docs/
 │   ├── CHANGELOG.md
 │   ├── CODE_OF_CONDUCT.md
