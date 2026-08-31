@@ -30,12 +30,12 @@ jobs:
           set -euxo pipefail
 
           echo "---- Doxygen config ----"
-          grep -nE 'OUTPUT_DIRECTORY|HTML_OUTPUT|HTML_EXTRA_STYLESHEET|PROJECT_LOGO|PROJECT_ICON' Doxyfile
+          grep -nE 'OUTPUT_DIRECTORY|HTML_OUTPUT|HTML_EXTRA_STYLESHEET|PROJECT_LOGO|PROJECT_ICON' docs/DoxyPage/Doxyfile
 
           echo "---- Source asset check ----"
           ls -l docs/DoxyPage/custom.css docs/DoxyPage/OHC-logo-lowresolution.png
 
-          doxygen Doxyfile
+          doxygen docs/DoxyPage/Doxyfile
 
           echo "---- Generated HTML output ----"
           ls -l build-docs/html

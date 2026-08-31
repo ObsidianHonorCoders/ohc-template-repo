@@ -40,7 +40,6 @@ adheres to
 - Initial template structure
 - CMake presets for dev and CI builds
 - GoogleTest integration via FetchContent
-- Cross-platform build script (build_and_run_project.cmake)
 - Governance files (CODE_OF_CONDUCT, CONTRIBUTING, SECURITY, LICENSE)
 - GitHub issue templates and PR template
 - Doxygen configuration
@@ -54,7 +53,6 @@ adheres to
 
 ### Added in v1.2.0
 
-- cmakehelpers/detect_generator.cmake for platform detection
 - Basic project structure with include/, src/, tests/
 
 ## [1.1.0] - 2026-07-01

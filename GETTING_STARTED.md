@@ -135,6 +135,18 @@ chmod +x scripts/rename-template.sh
   -v "0.1.0" \
   -n "myproject" \
   -x "myapp"
+
+# Preview the rename without changing files
+./scripts/rename-template.sh MyProject --dry-run -y
+```
+
+### Build Configuration Notes
+
+The template defaults to strict warnings-as-errors, but you can relax
+that for a new project when needed:
+
+```bash
+cmake -S . -B build -DOHC_ENABLE_WERROR=OFF
 ```
 
 ### What Gets Renamed
@@ -178,16 +190,19 @@ The template provides **CMake presets** for common scenarios.
 cmake --list-presets
 ```
 
+The current repository ships with two configured presets:
+
 | Preset | Use Case | Command |
 | -------- | ---------- | --------- |
 | `dev` | Debug work | `cmake --preset dev` |
 | `dev-build` | Build only | `cmake --build --preset dev-build` |
 | `dev-test` | Run tests only | `ctest --preset dev-test` |
-| `release` | Release build | `cmake --preset release` |
-| `coverage` | Coverage build | `cmake --preset coverage` |
-| `sanitize-address` | ASan | `cmake --preset sanitize-address` |
-| `sanitize-thread` | TSan | `cmake --preset sanitize-thread` |
-| `ci` | CI equivalent | `cmake --preset ci` |
+| `ci` | Release-mode CI-equivalent build | `cmake --preset ci` |
+| `ci-build` | Release build only | `cmake --build --preset ci-build` |
+| `ci-test` | Release test run | `ctest --preset ci-test` |
+
+The extra sanitizer and coverage presets mentioned in older template drafts
+are not defined in the current `CMakePresets.json` file.
 
 ### Quick Commands Cheat Sheet
 
@@ -200,47 +215,25 @@ ctest --preset dev-test --output-on-failure
 # One-liner
 cmake --preset dev && cmake --build --preset dev-build && ctest --preset dev-test
 
-# Release build
-cmake --preset release
-cmake --build --preset release-build
-ctest --preset release-test
+# Release-mode CI-equivalent build
+cmake --preset ci
+cmake --build --preset ci-build
+ctest --preset ci-test
 
-# Coverage
-cmake --preset coverage
-cmake --build --preset coverage-build
-ctest --preset coverage-test
+# Optional local coverage/sanitizer configuration
+# These are not shipped as presets in the current repository.
+cmake -S . -B build-coverage -DENABLE_COVERAGE=ON -DBUILD_TESTING=ON
+cmake --build build-coverage
+ctest --test-dir build-coverage --output-on-failure
 
-# Sanitizers
-cmake --preset sanitize-address
-cmake --build --preset sanitize-address-build
-ctest --preset sanitize-address-test
-
-# Documentation
-cmake --preset docs
-cmake --build --preset docs-build
+# Documentation build
+cmake -S . -B build-docs -DBUILD_TESTING=OFF -DBUILD_DOCS=ON
+cmake --build build-docs --target docs
 
 # Static analysis
 cmake --preset dev
 cmake --build --preset dev-build --target clang-tidy
 cppcheck --enable=all --std=c++17 --inline-suppr src/ include/
-```
-
-### Standalone Build Script
-
-For quick one-off builds without presets:
-
-```bash
-# Default release build
-cmake -P build_and_run_project.cmake
-
-# Debug build
-cmake -DCMAKE_BUILD_TYPE=Debug -P build_and_run_project.cmake
-
-# Without tests
-cmake -DBUILD_TESTS=OFF -P build_and_run_project.cmake
-
-# Custom executable name
-cmake -DEXE_NAME=myapp -P build_and_run_project.cmake
 ```
 
 ---
@@ -286,8 +279,9 @@ Use **cmake-tools.nvim** or **nvim-cmake**.
 
 ## Understanding the CI Pipeline
 
-The `.github/workflows/ci.yml` file runs **7 parallel jobs** on every push
-and pull request.
+The `.github/workflows/ci.yml` file runs **7 jobs** for each workflow run.
+The full multi-platform matrix validates the template on Linux, Windows, and
+macOS so portability issues are caught early.
 
 | Job | Purpose | Triggers |
 | ----- | --------- | ---------- |
@@ -295,7 +289,7 @@ and pull request.
 | **build-test** | Matrix build and tests | Every push/PR |
 | **static-analysis** | clang-tidy + cppcheck | Every push/PR |
 | **format-check** | Format verification | Every push/PR |
-| **security** | Trivy scan | Weekly + push/PR |
+| **security** | Trivy scan | Every push/PR |
 | **docs** | Doxygen build | Every push/PR |
 | **release** | Versioned release | Tag push |
 
@@ -345,30 +339,21 @@ and pull request.
 ### Enable Sanitizers Locally
 
 ```bash
-# AddressSanitizer
-cmake --preset sanitize-address
-cmake --build --preset sanitize-address-build
-ctest --preset sanitize-address-test
-
-# ThreadSanitizer
-cmake --preset sanitize-thread
-cmake --build --preset sanitize-thread-build
-ctest --preset sanitize-thread-test
-
-# Both, if supported
-cmake -DCMAKE_CXX_FLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer" \
-  -DCMAKE_C_FLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer" \
-  -DCMAKE_BUILD_TYPE=Debug \
-  -B build-sanitize
+cmake -S . -B build-sanitize \
+  -DENABLE_SANITIZERS=ON \
+  -DCMAKE_BUILD_TYPE=Debug
+cmake --build build-sanitize
+ctest --test-dir build-sanitize --output-on-failure
 ```
 
 ### Generate Code Coverage
 
 ```bash
-cmake --preset coverage
-cmake --build --preset coverage-build
-ctest --preset coverage-test
-# Open: build-coverage/coverage/index.html
+cmake -S . -B build-coverage \
+  -DENABLE_COVERAGE=ON \
+  -DBUILD_TESTING=ON
+cmake --build build-coverage
+ctest --test-dir build-coverage --output-on-failure
 ```
 
 ### Update Dependencies
@@ -395,11 +380,19 @@ clang-format --dry-run --Werror src/*.cpp include/*.hpp tests/*.cpp main.cpp
 
 ```bash
 # clang-tidy
-cmake --preset dev
-run-clang-tidy.py -p build-dev
+cmake -S . -B build-analysis \
+  -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+  -DCMAKE_CXX_CLANG_TIDY="/usr/bin/clang-tidy-15;-checks=clang-analyzer-*,\
+  bugprone-*,performance-*;-warnings-as-errors=*;\
+  -header-filter=^.*(src|include)/.*$" \
+  -DCMAKE_BUILD_TYPE=Debug \
+  -DBUILD_TESTING=OFF
+cmake --build build-analysis --parallel 4
 
 # cppcheck
-cppcheck --enable=all --std=c++17 --inline-suppr src/ include/ tests/
+cppcheck --project=build-analysis/compile_commands.json \
+  --enable=all --std=c++17 --inline-suppr \
+  --suppress=missingIncludeSystem --error-exitcode=1
 ```
 
 ### Run pre-commit locally
@@ -446,6 +439,9 @@ clang --version
 cl --version  # Windows MSVC
 ```
 
+This repository currently requires CMake 3.25+ and a C++17 compiler,
+as defined in `CMakeLists.txt`.
+
 ### "Ninja not found"
 
 ```bash
@@ -463,13 +459,13 @@ brew install ninja
 
 ```bash
 # Ensure tests are enabled in CMake
-cmake --preset dev  # Has -DBUILD_TESTING=ON
+cmake --preset dev  # sets BUILD_TESTING=ON
 
 # Check test discovery
 ctest --preset dev-test -N
 
 # Verify test executable exists
-ls build-dev/tests/
+ls build/dev/tests/
 ```
 
 ### "clang-format not found"
@@ -504,6 +500,10 @@ pre-commit autoupdate
 3. Try **Dev Containers: Rebuild Container**.
 4. Check the VS Code output for the Dev Containers log.
 
+The repository does include a `.devcontainer/` folder, but the actual setup
+is driven by the contents of that directory rather than a separate top-level
+container guide.
+
 ### CI Fails Locally But Passes (or Vice Versa)
 
 | Issue | Fix |
@@ -519,25 +519,31 @@ pre-commit autoupdate
 ```text
 ohc-template-repo/
 ├── .devcontainer/
-│   ├── devcontainer.json
-│   └── setup.sh
 ├── .github/
+│   ├── ISSUE_TEMPLATE/
 │   ├── workflows/
 │   │   ├── ci.yml
-│   │   └── release.yml
-│   └── dependabot.yml
-├── cmakehelpers/
-│   └── detect_generator.cmake
+│   │   └── docs.yml
+│   ├── CODEOWNERS
+│   ├── dependabot.yml
+│   └── pull_request_template.md
+├── cmake/
 ├── docs/
-│   └── release_checklist.md
+│   ├── CHANGELOG.md
+│   ├── CODE_OF_CONDUCT.md
+│   ├── CONTRIBUTING.md
+│   ├── NAMING_CONVENTIONS.md
+│   ├── README.md
+│   ├── SECURITY.md
+│   ├── release_checklist.md
+│   └── DoxyPage/
 ├── include/
-│   └── myproject/
-│       └── my_module.hpp
+│   └── template_module.hpp
 ├── src/
-│   └── my_module.cpp
+│   └── template_module.cpp
 ├── tests/
 │   ├── CMakeLists.txt
-│   └── test_my_module.cpp
+│   └── test_template_module.cpp
 ├── scripts/
 │   ├── rename-template.ps1
 │   └── rename-template.sh
@@ -545,21 +551,18 @@ ohc-template-repo/
 ├── .editorconfig
 ├── .gitignore
 ├── .pre-commit-config.yaml
-├── build_and_run_project.cmake
-├── CHANGELOG.md
 ├── CMakeLists.txt
 ├── CMakePresets.json
-├── CMakeUserPresets.json.example
-├── CODE_OF_CONDUCT.md
-├── CONTRIBUTING.md
-├── Doxyfile
 ├── GETTING_STARTED.md
 ├── LICENSE
 ├── main.cpp
-├── NAMING_CONVENTIONS.md
-├── README.md
-├── SECURITY.md
-└── TEMPLATE_IMPROVEMENTS.md
+├── .secrets.baseline
+└── docs/
+    ├── DoxyPage/
+    │   ├── Doxyfile
+    │   ├── custom.css
+    │   └── OHC-logo-lowresolution.png
+    └── ...
 ```
 
 ---
@@ -575,7 +578,7 @@ ohc-template-repo/
 
 ## Need Help?
 
-- **Template Issues**: see [TEMPLATE_IMPROVEMENTS.md](TEMPLATE_IMPROVEMENTS.md)
+- **Template docs**: see [docs/README.md](docs/README.md)
 - **CMake Issues**: see the [CMake docs](https://cmake.org/documentation/)
 - **CI Issues**: check the GitHub Actions logs
 - **General**: open an issue in the template repository

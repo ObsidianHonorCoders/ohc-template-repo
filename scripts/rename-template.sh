@@ -19,6 +19,8 @@ DESCRIPTION="A C++ project based on OHC template"
 AUTHOR="Your Name"
 EMAIL="your.email@example.com"
 GITHUB_OWNER="your-github-username"
+DRY_RUN=false
+AUTO_CONFIRM=false
 
 # Help function
 show_help() {
@@ -37,6 +39,8 @@ OPTIONS:
     -a, --author          Author name (default: "Your Name")
     -e, --email           Author email (default: "your.email@example.com")
     -g, --github-owner    GitHub username/organization (default: "your-github-username")
+    -y, --yes             Skip confirmation prompt
+    --dry-run             Show planned changes without modifying files
     -h, --help            Show this help message
 
 EXAMPLES:
@@ -76,6 +80,14 @@ while [[ $# -gt 0 ]]; do
         -g|--github-owner)
             GITHUB_OWNER="$2"
             shift 2
+            ;;
+        -y|--yes)
+            AUTO_CONFIRM=true
+            shift
+            ;;
+        --dry-run)
+            DRY_RUN=true
+            shift
             ;;
         -*)
             echo -e "${RED}Unknown option: $1${NC}"
@@ -132,12 +144,17 @@ echo -e "GitHub Owner: ${GREEN}$GITHUB_OWNER${NC}"
 echo -e "Year: ${GREEN}$YEAR${NC}"
 echo ""
 
-# Confirm before proceeding
-read -p "Proceed with renaming? (y/N) " -n 1 -r
-echo
-if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-    echo -e "${YELLOW}Aborted.${NC}"
-    exit 0
+if [[ "$DRY_RUN" == true ]]; then
+    echo -e "${YELLOW}Dry run mode enabled. No files will be modified.${NC}"
+else
+    if [[ "$AUTO_CONFIRM" != true ]]; then
+        read -p "Proceed with renaming? (y/N) " -n 1 -r
+        echo
+        if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+            echo -e "${YELLOW}Aborted.${NC}"
+            exit 0
+        fi
+    fi
 fi
 
 # Files to process with replacements
@@ -162,9 +179,8 @@ declare -A REPLACEMENTS=(
 FILES_TO_PROCESS=(
     "CMakeLists.txt"
     "CMakePresets.json"
-    "build_and_run_project.cmake"
     "README.md"
-    "Doxyfile"
+    "docs/DoxyPage/Doxyfile"
     "SECURITY.md"
     "CONTRIBUTING.md"
     "CODE_OF_CONDUCT.md"
@@ -182,7 +198,6 @@ FILES_TO_PROCESS=(
     ".github/ISSUE_TEMPLATE/config.yml"
     ".github/workflows/ci.yml"
     ".github/dependabot.yml"
-    "cmakehelpers/detect_generator.cmake"
     "docs/release_checklist.md"
     "NAMING_CONVENTIONS.md"
 )
@@ -206,8 +221,12 @@ for file in "${FILES_TO_PROCESS[@]}"; do
         done
 
         if [[ "$content" != "$original_content" ]]; then
-            echo "$content" > "$full_path"
-            echo -e "  ${GREEN}✓ Updated: $file${NC}"
+            if [[ "$DRY_RUN" == true ]]; then
+                echo -e "  ${GREEN}Would update: $file${NC}"
+            else
+                echo "$content" > "$full_path"
+                echo -e "  ${GREEN}✓ Updated: $file${NC}"
+            fi
         else
             echo -e "  ${NC}- No changes: $file${NC}"
         fi
@@ -223,38 +242,63 @@ echo -e "\n${CYAN}Renaming files and directories...${NC}"
 old_header="$REPO_ROOT/include/template_module.hpp"
 new_header="$REPO_ROOT/include/${PROJECT_NAME_SNAKE}_module.hpp"
 if [[ -f "$old_header" ]]; then
-    mv "$old_header" "$new_header"
-    echo -e "  ${GREEN}✓ Renamed: include/template_module.hpp -> include/${PROJECT_NAME_SNAKE}_module.hpp${NC}"
+    if [[ "$DRY_RUN" == true ]]; then
+        echo -e "  ${GREEN}Would rename: include/template_module.hpp -> include/${PROJECT_NAME_SNAKE}_module.hpp${NC}"
+    else
+        mv "$old_header" "$new_header"
+        echo -e "  ${GREEN}✓ Renamed: include/template_module.hpp -> include/${PROJECT_NAME_SNAKE}_module.hpp${NC}"
+    fi
 fi
 
 old_source="$REPO_ROOT/src/template_module.cpp"
 new_source="$REPO_ROOT/src/${PROJECT_NAME_SNAKE}_module.cpp"
 if [[ -f "$old_source" ]]; then
-    mv "$old_source" "$new_source"
-    echo -e "  ${GREEN}✓ Renamed: src/template_module.cpp -> src/${PROJECT_NAME_SNAKE}_module.cpp${NC}"
+    if [[ "$DRY_RUN" == true ]]; then
+        echo -e "  ${GREEN}Would rename: src/template_module.cpp -> src/${PROJECT_NAME_SNAKE}_module.cpp${NC}"
+    else
+        mv "$old_source" "$new_source"
+        echo -e "  ${GREEN}✓ Renamed: src/template_module.cpp -> src/${PROJECT_NAME_SNAKE}_module.cpp${NC}"
+    fi
 fi
 
 # Rename test file
 old_test="$REPO_ROOT/tests/test_template_module.cpp"
 new_test="$REPO_ROOT/tests/test_${PROJECT_NAME_SNAKE}_module.cpp"
 if [[ -f "$old_test" ]]; then
-    mv "$old_test" "$new_test"
-    echo -e "  ${GREEN}✓ Renamed: tests/test_template_module.cpp -> tests/test_${PROJECT_NAME_SNAKE}_module.cpp${NC}"
+    if [[ "$DRY_RUN" == true ]]; then
+        echo -e "  ${GREEN}Would rename: tests/test_template_module.cpp -> tests/test_${PROJECT_NAME_SNAKE}_module.cpp${NC}"
+    else
+        mv "$old_test" "$new_test"
+        echo -e "  ${GREEN}✓ Renamed: tests/test_template_module.cpp -> tests/test_${PROJECT_NAME_SNAKE}_module.cpp${NC}"
+    fi
 fi
 
 # Rename cmake config template
 old_cmake_config="$REPO_ROOT/cmake/ohc_template_repo-config.cmake.in"
 new_cmake_config="$REPO_ROOT/cmake/${PROJECT_NAME_SNAKE}-config.cmake.in"
 if [[ -f "$old_cmake_config" ]]; then
-    mv "$old_cmake_config" "$new_cmake_config"
-    echo -e "  ${GREEN}✓ Renamed: cmake/ohc_template_repo-config.cmake.in -> cmake/${PROJECT_NAME_SNAKE}-config.cmake.in${NC}"
+    if [[ "$DRY_RUN" == true ]]; then
+        echo -e "  ${GREEN}Would rename: cmake/ohc_template_repo-config.cmake.in -> cmake/${PROJECT_NAME_SNAKE}-config.cmake.in${NC}"
+    else
+        mv "$old_cmake_config" "$new_cmake_config"
+        echo -e "  ${GREEN}✓ Renamed: cmake/ohc_template_repo-config.cmake.in -> cmake/${PROJECT_NAME_SNAKE}-config.cmake.in${NC}"
+    fi
 fi
 
 # Update CMakeLists.txt to reference new config file name
 cmake_lists="$REPO_ROOT/CMakeLists.txt"
 if [[ -f "$cmake_lists" ]]; then
-    sed -i "s/ohc_template_repo-config\\.cmake\\.in/${PROJECT_NAME_SNAKE}-config.cmake.in/g" "$cmake_lists"
-    echo -e "  ${GREEN}✓ Updated CMakeLists.txt config reference${NC}"
+    if [[ "$DRY_RUN" == true ]]; then
+        echo -e "  ${GREEN}Would update CMakeLists.txt config reference${NC}"
+    else
+        sed -i "s/ohc_template_repo-config\\.cmake\\.in/${PROJECT_NAME_SNAKE}-config.cmake.in/g" "$cmake_lists"
+        echo -e "  ${GREEN}✓ Updated CMakeLists.txt config reference${NC}"
+    fi
+fi
+
+if [[ "$DRY_RUN" == true ]]; then
+    echo -e "\n${YELLOW}Dry run complete. No files were modified.${NC}"
+    exit 0
 fi
 
 echo -e "\n${CYAN}==========================================${NC}"

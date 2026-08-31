@@ -14,6 +14,15 @@ target_link_libraries(test_${EXE_NAME}
     GTest::gtest_main
 )
 
+add_test(
+  NAME rename_template_dry_run
+  COMMAND bash ${CMAKE_SOURCE_DIR}/scripts/rename-template.sh MyProject --dry-run --yes --author "Jane Doe" --email "jane@example.com" --github-owner "janedoe"
+)
+set_tests_properties(rename_template_dry_run PROPERTIES
+  PASS_REGULAR_EXPRESSION "Dry run|No files were modified"
+  TIMEOUT 30
+)
+
 include(GoogleTest)
 gtest_discover_tests(test_${EXE_NAME}
   EXTRA_ARGS --gtest_brief=1

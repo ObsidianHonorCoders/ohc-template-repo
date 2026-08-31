@@ -112,9 +112,8 @@ $replacements = @{
 $filesToProcess = @(
     "CMakeLists.txt",
     "CMakePresets.json",
-    "build_and_run_project.cmake",
     "README.md",
-    "Doxyfile",
+    "docs/DoxyPage/Doxyfile",
     "SECURITY.md",
     "CONTRIBUTING.md",
     "CODE_OF_CONDUCT.md",
@@ -132,7 +131,6 @@ $filesToProcess = @(
     ".github/ISSUE_TEMPLATE/config.yml",
     ".github/workflows/ci.yml",
     ".github/dependabot.yml",
-    "cmakehelpers/detect_generator.cmake",
     "docs/release_checklist.md",
     "NAMING_CONVENTIONS.md"
 )

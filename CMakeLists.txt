@@ -28,6 +28,7 @@ option(BUILD_TESTING "Build unit tests" ON)
 option(BUILD_DOCS "Build documentation with Doxygen" OFF)
 option(ENABLE_SANITIZERS "Enable sanitizers (Address, Thread, UBSan)" OFF)
 option(ENABLE_COVERAGE "Enable code coverage instrumentation" OFF)
+option(OHC_ENABLE_WERROR "Treat compiler warnings as errors" ON)
 
 # Policies for modern CMake
 cmake_policy(SET CMP0077 NEW) # option() honors normal variables
@@ -51,9 +52,15 @@ endif()
 
 # Compiler warnings
 if(MSVC)
-  add_compile_options(/W4 /WX)
+  add_compile_options(/W4)
+  if(OHC_ENABLE_WERROR)
+    add_compile_options(/WX)
+  endif()
 else()
-  add_compile_options(-Wall -Wextra -Wpedantic -Werror)
+  add_compile_options(-Wall -Wextra -Wpedantic)
+  if(OHC_ENABLE_WERROR)
+    add_compile_options(-Werror)
+  endif()
 endif()
 
 # Include FetchContent for dependencies
@@ -107,7 +114,7 @@ if(BUILD_DOCS)
   find_package(Doxygen QUIET)
   if(DOXYGEN_FOUND)
     doxygen_add_docs(
-      docs ALL ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile
+      docs ALL ${CMAKE_CURRENT_SOURCE_DIR}/docs/DoxyPage/Doxyfile
       WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
       COMMENT "Generating API documentation with Doxygen")
   else()
