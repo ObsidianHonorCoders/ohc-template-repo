@@ -12,12 +12,12 @@
 namespace template_repo::input
 {
 
-struct AcquiredInput
-{
-  std::string value;
-  std::string source;
-};
+  struct AcquiredInput
+  {
+      std::string value;
+      std::string source;
+  };
 
-AcquiredInput AcquireInput(const std::string& raw_value);
+  AcquiredInput AcquireInput(const std::string& raw_value);
 
 } // namespace template_repo::input

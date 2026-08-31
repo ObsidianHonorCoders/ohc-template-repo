@@ -7,9 +7,6 @@
 namespace template_repo::processing
 {
 
-ProcessedInput ProcessInput(const input::AcquiredInput& acquired_input)
-{
-  return {acquired_input.value, "processed"};
-}
+  ProcessedInput ProcessInput(const input::AcquiredInput& acquired_input) { return {acquired_input.value, "processed"}; }
 
 } // namespace template_repo::processing

@@ -9,10 +9,11 @@
 
 #include <gtest/gtest.h>
 
-TEST(ArchitectureIntegrationTests, EndToEndPipelineProducesGreeting) {
-  const auto acquired_input = template_repo::input::AcquireInput("  OHC  ");
+TEST(ArchitectureIntegrationTests, EndToEndPipelineProducesGreeting)
+{
+  const auto acquired_input  = template_repo::input::AcquireInput("  OHC  ");
   const auto processed_input = template_repo::processing::ProcessInput(acquired_input);
-  const auto output = template_repo::output::BuildOutput(processed_input);
+  const auto output          = template_repo::output::BuildOutput(processed_input);
 
   EXPECT_EQ("Hello OHC from OHC template repo", output.message);
   EXPECT_EQ("stdout", output.destination);

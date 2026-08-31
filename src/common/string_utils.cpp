@@ -10,16 +10,16 @@
 namespace template_repo::common
 {
 
-std::string Trim(const std::string& value)
-{
-  const auto begin = value.find_first_not_of(" \t\r\n");
-  if (begin == std::string::npos)
+  std::string Trim(const std::string& value)
   {
-    return {};
-  }
+    const auto begin = value.find_first_not_of(" \t\r\n");
+    if (begin == std::string::npos)
+    {
+      return {};
+    }
 
-  const auto end = value.find_last_not_of(" \t\r\n");
-  return value.substr(begin, end - begin + 1);
-}
+    const auto end = value.find_last_not_of(" \t\r\n");
+    return value.substr(begin, end - begin + 1);
+  }
 
 } // namespace template_repo::common

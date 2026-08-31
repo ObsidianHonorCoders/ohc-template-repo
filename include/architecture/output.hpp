@@ -14,12 +14,12 @@
 namespace template_repo::output
 {
 
-struct OutputMessage
-{
-  std::string message;
-  std::string destination;
-};
+  struct OutputMessage
+  {
+      std::string message;
+      std::string destination;
+  };
 
-OutputMessage BuildOutput(const processing::ProcessedInput& processed_input);
+  OutputMessage BuildOutput(const processing::ProcessedInput& processed_input);
 
 } // namespace template_repo::output

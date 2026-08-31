@@ -10,11 +10,11 @@
 namespace template_repo
 {
 
-std::string BuildGreeting(const std::string& name)
-{
-  const auto acquired_input = input::AcquireInput(name);
-  const auto processed_input = processing::ProcessInput(acquired_input);
-  return output::BuildOutput(processed_input).message;
-}
+  std::string BuildGreeting(const std::string& name)
+  {
+    const auto acquired_input  = input::AcquireInput(name);
+    const auto processed_input = processing::ProcessInput(acquired_input);
+    return output::BuildOutput(processed_input).message;
+  }
 
 } // namespace template_repo

@@ -9,9 +9,6 @@
 namespace template_repo::input
 {
 
-AcquiredInput AcquireInput(const std::string& raw_value)
-{
-  return {common::Trim(raw_value), "user_input"};
-}
+  AcquiredInput AcquireInput(const std::string& raw_value) { return {common::Trim(raw_value), "user_input"}; }
 
 } // namespace template_repo::input

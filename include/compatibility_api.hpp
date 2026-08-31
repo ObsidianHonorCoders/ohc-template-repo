@@ -16,6 +16,6 @@
 namespace template_repo
 {
 
-std::string BuildGreeting(const std::string& name);
+  std::string BuildGreeting(const std::string& name);
 
 } // namespace template_repo

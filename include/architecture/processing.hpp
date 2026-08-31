@@ -14,12 +14,12 @@
 namespace template_repo::processing
 {
 
-struct ProcessedInput
-{
-  std::string value;
-  std::string stage;
-};
+  struct ProcessedInput
+  {
+      std::string value;
+      std::string stage;
+  };
 
-ProcessedInput ProcessInput(const input::AcquiredInput& acquired_input);
+  ProcessedInput ProcessInput(const input::AcquiredInput& acquired_input);
 
 } // namespace template_repo::processing

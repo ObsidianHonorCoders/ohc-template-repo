@@ -12,9 +12,9 @@
 namespace template_repo::common
 {
 
-/// @brief Remove leading and trailing whitespace from a string.
-/// @param value Value to normalize.
-/// @return Trimmed value.
-std::string Trim(const std::string& value);
+  /// @brief Remove leading and trailing whitespace from a string.
+  /// @param value Value to normalize.
+  /// @return Trimmed value.
+  std::string Trim(const std::string& value);
 
 } // namespace template_repo::common
