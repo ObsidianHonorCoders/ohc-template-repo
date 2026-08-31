@@ -108,7 +108,6 @@ For the full onboarding flow, see
 ├── build_and_run_project.cmake
 ├── CMakeLists.txt
 ├── CMakePresets.json
-├── CMakeUserPresets.json.example
 ├── Doxyfile
 ├── GETTING_STARTED.md
 ├── LICENSE

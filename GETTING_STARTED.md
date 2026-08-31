@@ -557,7 +557,6 @@ ohc-template-repo/
 ├── build_and_run_project.cmake
 ├── CMakeLists.txt
 ├── CMakePresets.json
-├── CMakeUserPresets.json.example
 ├── Doxyfile
 ├── GETTING_STARTED.md
 ├── LICENSE
