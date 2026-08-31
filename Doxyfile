@@ -61,20 +61,20 @@ PROJECT_BRIEF          = "Reusable baseline for OHC C++ repositories"
 # pixels and the maximum width should not exceed 200 pixels. Doxygen will copy
 # the logo to the output directory.
 
-PROJECT_LOGO           = @DOXYGEN_PROJECT_LOGO_PATH@
+PROJECT_LOGO           = docs/DoxyPage/OHC-logo-lowresolution.png
 
 # With the PROJECT_ICON tag one can specify an icon that is included in the tabs
 # when the HTML document is shown. Doxygen will copy the logo to the output
 # directory.
 
-PROJECT_ICON           = @DOXYGEN_PROJECT_ICON_PATH@
+PROJECT_ICON           = docs/DoxyPage/OHC-logo-lowresolution.png
 
 # The OUTPUT_DIRECTORY tag is used to specify the (relative or absolute) path
 # into which the generated documentation will be written. If a relative path is
 # entered, it will be relative to the location where Doxygen was started. If
 # left blank the current directory will be used.
 
-OUTPUT_DIRECTORY       = @DOXYGEN_OUTPUT_DIRECTORY@
+OUTPUT_DIRECTORY       = build-docs
 
 # If the CREATE_SUBDIRS tag is set to YES then Doxygen will create up to 4096
 # sub-directories (in 2 levels) under the output directory of each output format
@@ -1429,7 +1429,6 @@ HTML_OUTPUT            = html
 # The default value is: .html.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_OUTPUT            = @DOXYGEN_HTML_OUTPUT@
 HTML_FILE_EXTENSION    = .html
 
 # The HTML_HEADER tag can be used to specify a user-defined HTML header file for
@@ -1490,7 +1489,7 @@ HTML_STYLESHEET        =
 # documentation.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_EXTRA_STYLESHEET  = @DOXYGEN_HTML_EXTRA_STYLESHEET@
+HTML_EXTRA_STYLESHEET  = docs/DoxyPage/custom.css
 
 # The HTML_EXTRA_FILES tag can be used to specify one or more extra images or
 # other source files which should be copied to the HTML output directory. Note

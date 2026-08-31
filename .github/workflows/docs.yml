@@ -28,25 +28,21 @@ jobs:
       - name: Build docs
         run: |
           set -euxo pipefail
-          cmake -S . -B build-docs -DBUILD_TESTING=OFF -DBUILD_DOCS=ON
 
-          echo "---- Generated Doxyfile ----"
-          grep -nE 'OUTPUT_DIRECTORY|HTML_OUTPUT|HTML_EXTRA_STYLESHEET|PROJECT_LOGO|PROJECT_ICON' build-docs/Doxyfile || true
+          echo "---- Doxygen config ----"
+          grep -nE 'OUTPUT_DIRECTORY|HTML_OUTPUT|HTML_EXTRA_STYLESHEET|PROJECT_LOGO|PROJECT_ICON' Doxyfile
 
           echo "---- Source asset check ----"
-          ls -l docs/DoxyPage/custom.css docs/DoxyPage/OHC-logo-lowresolution.png || true
+          ls -l docs/DoxyPage/custom.css docs/DoxyPage/OHC-logo-lowresolution.png
 
-          echo "---- Build tree before docs ----"
-          find build-docs -maxdepth 3 -type d | sort
-
-          cmake --build build-docs --target docs
+          doxygen Doxyfile
 
           echo "---- Generated HTML output ----"
-          ls -l build-docs/html || true
-          ls -l build-docs/html/custom.css build-docs/html/doxygen.css || true
+          ls -l build-docs/html
+          ls -l build-docs/html/custom.css build-docs/html/doxygen.css
 
           echo "---- HTML stylesheet references ----"
-          grep -n 'custom.css\|doxygen.css' build-docs/html/index.html | head || true
+          grep -n 'custom.css\|doxygen.css' build-docs/html/index.html | head
 
           test -f build-docs/html/custom.css
           grep -n 'custom.css' build-docs/html/index.html >/dev/null

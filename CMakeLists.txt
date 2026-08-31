@@ -106,26 +106,9 @@ endif()
 if(BUILD_DOCS)
   find_package(Doxygen QUIET)
   if(DOXYGEN_FOUND)
-    set(DOXYGEN_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}")
-    set(DOXYGEN_HTML_OUTPUT "html")
-    set(DOXYGEN_PROJECT_LOGO_PATH
-        "${CMAKE_CURRENT_SOURCE_DIR}/docs/DoxyPage/OHC-logo-lowresolution.png")
-    set(DOXYGEN_PROJECT_ICON_PATH
-        "${CMAKE_CURRENT_SOURCE_DIR}/docs/DoxyPage/OHC-logo-lowresolution.png")
-    set(DOXYGEN_HTML_EXTRA_STYLESHEET
-        "${CMAKE_CURRENT_SOURCE_DIR}/docs/DoxyPage/custom.css")
-
-    message(STATUS "Doxygen source dir: ${CMAKE_CURRENT_SOURCE_DIR}")
-    message(STATUS "Doxygen output dir: ${DOXYGEN_OUTPUT_DIRECTORY}")
-    message(STATUS "Doxygen HTML output dir: ${DOXYGEN_HTML_OUTPUT}")
-    message(STATUS "Doxygen extra stylesheet: ${DOXYGEN_HTML_EXTRA_STYLESHEET}")
-
-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile
-                   ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
-
     doxygen_add_docs(
-      docs ALL ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
-      WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+      docs ALL ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile
+      WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
       COMMENT "Generating API documentation with Doxygen")
   else()
     message(WARNING "Doxygen not found, documentation target disabled")
