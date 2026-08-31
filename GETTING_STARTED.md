@@ -189,7 +189,8 @@ The current repository ships with two configured presets:
 | `ci-build` | Release build only | `cmake --build --preset ci-build` |
 | `ci-test` | Release test run | `ctest --preset ci-test` |
 
-The extra sanitizer and coverage presets mentioned in older template drafts are not defined in the current `CMakePresets.json` file.
+The extra sanitizer and coverage presets mentioned in older template drafts
+are not defined in the current `CMakePresets.json` file.
 
 ### Quick Commands Cheat Sheet
 
@@ -444,7 +445,8 @@ clang --version
 cl --version  # Windows MSVC
 ```
 
-This repository currently requires CMake 3.25+ and a C++17 compiler, as defined in `CMakeLists.txt`.
+This repository currently requires CMake 3.25+ and a C++17 compiler,
+as defined in `CMakeLists.txt`.
 
 ### "Ninja not found"
 
@@ -504,7 +506,9 @@ pre-commit autoupdate
 3. Try **Dev Containers: Rebuild Container**.
 4. Check the VS Code output for the Dev Containers log.
 
-The repository does include a `.devcontainer/` folder, but the actual setup is driven by the contents of that directory rather than a separate top-level container guide.
+The repository does include a `.devcontainer/` folder, but the actual setup
+is driven by the contents of that directory rather than a separate top-level
+container guide.
 
 ### CI Fails Locally But Passes (or Vice Versa)
 
