@@ -28,7 +28,15 @@ jobs:
       - name: Build docs
         run: |
           cmake -S . -B build-docs -DBUILD_TESTING=OFF -DBUILD_DOCS=ON
+          echo "---- Generated Doxyfile ----"
+          grep -nE 'OUTPUT_DIRECTORY|HTML_OUTPUT|HTML_EXTRA_STYLESHEET|PROJECT_LOGO|PROJECT_ICON' build-docs/Doxyfile || true
+          echo "---- Source asset check ----"
+          ls -l docs/DoxyPage/custom.css docs/DoxyPage/OHC-logo-lowresolution.png
+          echo "---- Build tree before docs ----"
+          find build-docs -maxdepth 3 -type d | sort
           cmake --build build-docs --target docs
+          echo "---- Generated HTML tree ----"
+          find build-docs -maxdepth 3 \( -type d -o -type f \) | sort | sed -n '1,120p'
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

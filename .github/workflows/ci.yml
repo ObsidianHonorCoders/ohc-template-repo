@@ -34,7 +34,12 @@ jobs:
         run: pip install pre-commit
 
       - name: Run pre-commit
-        run: pre-commit run --all-files --show-diff-on-failure
+        run: |
+          echo "Running repository hooks in GitHub Actions. This check is required for merges into main."
+          pre-commit run --all-files --show-diff-on-failure || {
+            echo "pre-commit failed. Fix the reported issues and push again."
+            exit 1
+          }
 
   # Multi-platform build & test matrix
   build-test:

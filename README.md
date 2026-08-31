@@ -32,6 +32,20 @@ cmake --build --preset dev-build
 ctest --preset dev-test --output-on-failure
 ```
 
+### Local pre-commit checks
+
+```bash
+python3 -m venv .venv
+. .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install pre-commit
+pre-commit install --install-hooks
+pre-commit run --all-files
+```
+
+If a hook auto-fixes files (for example `cmake-format`), run the command again
+to confirm the repo is clean.
+
 For the full onboarding flow, see
 [GETTING_STARTED.md](GETTING_STARTED.md).
 

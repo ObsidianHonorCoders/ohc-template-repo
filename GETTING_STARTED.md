@@ -402,6 +402,34 @@ run-clang-tidy.py -p build-dev
 cppcheck --enable=all --std=c++17 --inline-suppr src/ include/ tests/
 ```
 
+### Run pre-commit locally
+
+```bash
+# Create an isolated environment so pip is not blocked by Debian/Ubuntu PEP 668 rules
+python3 -m venv .venv
+. .venv/bin/activate
+
+# Install the tool in that environment
+python -m pip install --upgrade pip
+python -m pip install pre-commit
+
+# Install repo hooks so they run automatically on commit
+pre-commit install --install-hooks
+
+# Run the full hook set on demand
+pre-commit run --all-files
+
+# If a hook auto-fixes files, run it again to confirm the repo is clean
+pre-commit run --all-files
+
+# Run a single hook, for example format checks
+pre-commit run clang-format --all-files
+```
+
+> On Ubuntu/Debian, `python3 -m pip install --user pre-commit` can fail because
+> the system Python is managed by PEP 668. A local virtual environment avoids
+> that problem.
+
 ---
 
 ## Troubleshooting
