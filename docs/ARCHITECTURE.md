@@ -151,8 +151,8 @@ This is useful because it supports two different questions:
 
 The current test layout uses GoogleTest and follows a simple naming pattern:
 
-- unit files: test_<module>.cpp
-- integration files: test_<module>.cpp
+- unit files: test_\<module\>.cpp
+- integration files: test_\<module\>.cpp
 
 Keep test names descriptive and aligned with the responsibility they validate.
 
@@ -169,7 +169,7 @@ Recommended conventions:
 - classes/structs: PascalCase
 - functions: snake_case
 - namespaces: snake_case
-- tests: test_<module>.cpp
+- tests: test_\<module\>.cpp
 - CMake targets and variables: UPPER_SNAKE_CASE or project-appropriate names
 
 The important point is consistency. A clean architecture is not only about
