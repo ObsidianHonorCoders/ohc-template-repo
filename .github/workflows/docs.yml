@@ -27,16 +27,29 @@ jobs:
 
       - name: Build docs
         run: |
+          set -euxo pipefail
           cmake -S . -B build-docs -DBUILD_TESTING=OFF -DBUILD_DOCS=ON
+
           echo "---- Generated Doxyfile ----"
           grep -nE 'OUTPUT_DIRECTORY|HTML_OUTPUT|HTML_EXTRA_STYLESHEET|PROJECT_LOGO|PROJECT_ICON' build-docs/Doxyfile || true
+
           echo "---- Source asset check ----"
-          ls -l docs/DoxyPage/custom.css docs/DoxyPage/OHC-logo-lowresolution.png
+          ls -l docs/DoxyPage/custom.css docs/DoxyPage/OHC-logo-lowresolution.png || true
+
           echo "---- Build tree before docs ----"
           find build-docs -maxdepth 3 -type d | sort
+
           cmake --build build-docs --target docs
-          echo "---- Generated HTML tree ----"
-          find build-docs -maxdepth 3 \( -type d -o -type f \) | sort | sed -n '1,120p'
+
+          echo "---- Generated HTML output ----"
+          ls -l build-docs/html || true
+          ls -l build-docs/html/custom.css build-docs/html/doxygen.css || true
+
+          echo "---- HTML stylesheet references ----"
+          grep -n 'custom.css\|doxygen.css' build-docs/html/index.html | head || true
+
+          test -f build-docs/html/custom.css
+          grep -n 'custom.css' build-docs/html/index.html >/dev/null
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
