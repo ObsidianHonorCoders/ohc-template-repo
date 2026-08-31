@@ -78,6 +78,7 @@ For the full onboarding flow, see
 ├── cmake/
 │   └── ohc_template_repo-config.cmake.in
 ├── cmakehelpers/
+│   ├── quick_build.cmake
 │   └── detect_generator.cmake
 ├── docs/
 │   ├── CHANGELOG.md
@@ -105,7 +106,6 @@ For the full onboarding flow, see
 ├── .gitignore
 ├── .pre-commit-config.yaml
 ├── .secrets.baseline
-├── build_and_run_project.cmake
 ├── CMakeLists.txt
 ├── CMakePresets.json
 ├── GETTING_STARTED.md

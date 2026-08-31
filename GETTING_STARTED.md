@@ -230,16 +230,16 @@ For quick one-off builds without presets:
 
 ```bash
 # Default release build
-cmake -P build_and_run_project.cmake
+cmake -P cmakehelpers/quick_build.cmake
 
 # Debug build
-cmake -DCMAKE_BUILD_TYPE=Debug -P build_and_run_project.cmake
+cmake -DCMAKE_BUILD_TYPE=Debug -P cmakehelpers/quick_build.cmake
 
 # Without tests
-cmake -DBUILD_TESTS=OFF -P build_and_run_project.cmake
+cmake -DBUILD_TESTS=OFF -P cmakehelpers/quick_build.cmake
 
 # Custom executable name
-cmake -DEXE_NAME=myapp -P build_and_run_project.cmake
+cmake -DEXE_NAME=myapp -P cmakehelpers/quick_build.cmake
 ```
 
 ---
@@ -554,11 +554,13 @@ ohc-template-repo/
 ├── scripts/
 │   ├── rename-template.ps1
 │   └── rename-template.sh
+├── cmakehelpers/
+│   ├── quick_build.cmake
+│   └── detect_generator.cmake
 ├── .clang-format
 ├── .editorconfig
 ├── .gitignore
 ├── .pre-commit-config.yaml
-├── build_and_run_project.cmake
 ├── CMakeLists.txt
 ├── CMakePresets.json
 ├── GETTING_STARTED.md

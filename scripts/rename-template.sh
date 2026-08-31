@@ -162,7 +162,7 @@ declare -A REPLACEMENTS=(
 FILES_TO_PROCESS=(
     "CMakeLists.txt"
     "CMakePresets.json"
-    "build_and_run_project.cmake"
+    "cmakehelpers/quick_build.cmake"
     "README.md"
     "docs/DoxyPage/Doxyfile"
     "SECURITY.md"

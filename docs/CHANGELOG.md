@@ -40,7 +40,7 @@ adheres to
 - Initial template structure
 - CMake presets for dev and CI builds
 - GoogleTest integration via FetchContent
-- Cross-platform build script (build_and_run_project.cmake)
+- Cross-platform build script (cmakehelpers/quick_build.cmake)
 - Governance files (CODE_OF_CONDUCT, CONTRIBUTING, SECURITY, LICENSE)
 - GitHub issue templates and PR template
 - Doxygen configuration
