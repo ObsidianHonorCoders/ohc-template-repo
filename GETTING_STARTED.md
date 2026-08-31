@@ -135,6 +135,18 @@ chmod +x scripts/rename-template.sh
   -v "0.1.0" \
   -n "myproject" \
   -x "myapp"
+
+# Preview the rename without changing files
+./scripts/rename-template.sh MyProject --dry-run -y
+```
+
+### Build Configuration Notes
+
+The template defaults to strict warnings-as-errors, but you can relax
+that for a new project when needed:
+
+```bash
+cmake -S . -B build -DOHC_ENABLE_WERROR=OFF
 ```
 
 ### What Gets Renamed
@@ -267,8 +279,9 @@ Use **cmake-tools.nvim** or **nvim-cmake**.
 
 ## Understanding the CI Pipeline
 
-The `.github/workflows/ci.yml` file runs **7 parallel jobs** on every push
-and pull request.
+The `.github/workflows/ci.yml` file runs **7 jobs** for each workflow run.
+The full multi-platform matrix validates the template on Linux, Windows, and
+macOS so portability issues are caught early.
 
 | Job | Purpose | Triggers |
 | ----- | --------- | ---------- |
@@ -276,7 +289,7 @@ and pull request.
 | **build-test** | Matrix build and tests | Every push/PR |
 | **static-analysis** | clang-tidy + cppcheck | Every push/PR |
 | **format-check** | Format verification | Every push/PR |
-| **security** | Trivy scan | Weekly + push/PR |
+| **security** | Trivy scan | Every push/PR |
 | **docs** | Doxygen build | Every push/PR |
 | **release** | Versioned release | Tag push |
 
@@ -326,30 +339,21 @@ and pull request.
 ### Enable Sanitizers Locally
 
 ```bash
-# AddressSanitizer
-cmake --preset sanitize-address
-cmake --build --preset sanitize-address-build
-ctest --preset sanitize-address-test
-
-# ThreadSanitizer
-cmake --preset sanitize-thread
-cmake --build --preset sanitize-thread-build
-ctest --preset sanitize-thread-test
-
-# Both, if supported
-cmake -DCMAKE_CXX_FLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer" \
-  -DCMAKE_C_FLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer" \
-  -DCMAKE_BUILD_TYPE=Debug \
-  -B build-sanitize
+cmake -S . -B build-sanitize \
+  -DENABLE_SANITIZERS=ON \
+  -DCMAKE_BUILD_TYPE=Debug
+cmake --build build-sanitize
+ctest --test-dir build-sanitize --output-on-failure
 ```
 
 ### Generate Code Coverage
 
 ```bash
-cmake --preset coverage
-cmake --build --preset coverage-build
-ctest --preset coverage-test
-# Open: build-coverage/coverage/index.html
+cmake -S . -B build-coverage \
+  -DENABLE_COVERAGE=ON \
+  -DBUILD_TESTING=ON
+cmake --build build-coverage
+ctest --test-dir build-coverage --output-on-failure
 ```
 
 ### Update Dependencies
@@ -376,11 +380,17 @@ clang-format --dry-run --Werror src/*.cpp include/*.hpp tests/*.cpp main.cpp
 
 ```bash
 # clang-tidy
-cmake --preset dev
-run-clang-tidy.py -p build-dev
+cmake -S . -B build-analysis \
+  -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+  -DCMAKE_CXX_CLANG_TIDY="/usr/bin/clang-tidy-15;-checks=clang-analyzer-*,bugprone-*,performance-*;-warnings-as-errors=*;-header-filter=^.*(src|include)/.*$" \
+  -DCMAKE_BUILD_TYPE=Debug \
+  -DBUILD_TESTING=OFF
+cmake --build build-analysis --parallel 4
 
 # cppcheck
-cppcheck --enable=all --std=c++17 --inline-suppr src/ include/ tests/
+cppcheck --project=build-analysis/compile_commands.json \
+  --enable=all --std=c++17 --inline-suppr \
+  --suppress=missingIncludeSystem --error-exitcode=1
 ```
 
 ### Run pre-commit locally

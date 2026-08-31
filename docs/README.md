@@ -26,10 +26,19 @@ applications.
 .\scripts\rename-template.ps1 -ProjectName "MyProject" -Author "Your Name" \
   -Email "you@example.com" -GitHubOwner "your-github-user"
 
-# 2) build and test
+# 2) preview a rename safely before applying it
+bash ./scripts/rename-template.sh MyProject --dry-run -y
+
+# 3) build and test
 cmake --preset dev
 cmake --build --preset dev-build
 ctest --preset dev-test --output-on-failure
+```
+
+If a project wants a less strict warning policy, configure the template with:
+
+```bash
+cmake -S . -B build -DOHC_ENABLE_WERROR=OFF
 ```
 
 ### Local pre-commit checks
