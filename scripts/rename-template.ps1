@@ -114,7 +114,7 @@ $filesToProcess = @(
     "CMakePresets.json",
     "build_and_run_project.cmake",
     "README.md",
-    "Doxyfile",
+    "docs/DoxyPage/Doxyfile",
     "SECURITY.md",
     "CONTRIBUTING.md",
     "CODE_OF_CONDUCT.md",

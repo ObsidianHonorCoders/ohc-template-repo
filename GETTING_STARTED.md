@@ -557,11 +557,16 @@ ohc-template-repo/
 ├── build_and_run_project.cmake
 ├── CMakeLists.txt
 ├── CMakePresets.json
-├── Doxyfile
 ├── GETTING_STARTED.md
 ├── LICENSE
 ├── main.cpp
-└── .secrets.baseline
+├── .secrets.baseline
+└── docs/
+    ├── DoxyPage/
+    │   ├── Doxyfile
+    │   ├── custom.css
+    │   └── OHC-logo-lowresolution.png
+    └── ...
 ```
 
 ---

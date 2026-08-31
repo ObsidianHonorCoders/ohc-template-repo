@@ -108,12 +108,17 @@ For the full onboarding flow, see
 ├── build_and_run_project.cmake
 ├── CMakeLists.txt
 ├── CMakePresets.json
-├── Doxyfile
 ├── GETTING_STARTED.md
 ├── LICENSE
 ├── main.cpp
 ├── README.md
-└── SECURITY.md
+├── SECURITY.md
+└── docs/
+    ├── DoxyPage/
+    │   ├── Doxyfile
+    │   ├── custom.css
+    │   └── OHC-logo-lowresolution.png
+    ├── ...
 ```
 
 ## Template usage checklist

@@ -107,7 +107,7 @@ if(BUILD_DOCS)
   find_package(Doxygen QUIET)
   if(DOXYGEN_FOUND)
     doxygen_add_docs(
-      docs ALL ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile
+      docs ALL ${CMAKE_CURRENT_SOURCE_DIR}/docs/DoxyPage/Doxyfile
       WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
       COMMENT "Generating API documentation with Doxygen")
   else()
