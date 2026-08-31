@@ -5,8 +5,8 @@ symbols in this repository.
 
 ## File and Directory Naming
 
-- Directories: `kebab-case`
-  - Example: `cmake-helpers/`, `ci-config/`
+- Directories in this repo are generally lowercase and compact: `cmake/`,
+  `cmakehelpers/`, `docs/`, `src/`, `include/`, `tests/`
 - CMake files: `snake_case.cmake`
   - Example: `detect_generator.cmake`
 - C++ headers: `snake_case.hpp`
@@ -15,17 +15,13 @@ symbols in this repository.
   - Example: `template_module.cpp`
 - Test files: `test_<module>.cpp`
   - Example: `test_template_module.cpp`
-- Documentation: `kebab-case.md`
-  - Example: `release-checklist.md`
-- Config files: `kebab-case.ext`
-  - Example: `.clang-format`, `.editorconfig`
+- Documentation files names vary in this repository, but the current files are
+  examples like `CHANGELOG.md`, `README.md`, `SECURITY.md`, `LICENSE`
+- Config files: dot-prefixed lowercase names such as `.clang-format` and
+  `.editorconfig`
 - Scripts: `kebab-case.sh` or `kebab-case.ps1`
   - Example: `rename-template.sh`
-- GitHub workflows: `kebab-case.yml`
-  - Example: `ci.yml`
-- License: `LICENSE`
-- Changelog: `CHANGELOG.md`
-- Readme: `README.md`
+- GitHub workflows: lowercase names such as `ci.yml` and `docs.yml`
 
 ## C++ Symbol Naming
 

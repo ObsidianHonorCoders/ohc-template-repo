@@ -178,16 +178,18 @@ The template provides **CMake presets** for common scenarios.
 cmake --list-presets
 ```
 
+The current repository ships with two configured presets:
+
 | Preset | Use Case | Command |
 | -------- | ---------- | --------- |
 | `dev` | Debug work | `cmake --preset dev` |
 | `dev-build` | Build only | `cmake --build --preset dev-build` |
 | `dev-test` | Run tests only | `ctest --preset dev-test` |
-| `release` | Release build | `cmake --preset release` |
-| `coverage` | Coverage build | `cmake --preset coverage` |
-| `sanitize-address` | ASan | `cmake --preset sanitize-address` |
-| `sanitize-thread` | TSan | `cmake --preset sanitize-thread` |
-| `ci` | CI equivalent | `cmake --preset ci` |
+| `ci` | Release-mode CI-equivalent build | `cmake --preset ci` |
+| `ci-build` | Release build only | `cmake --build --preset ci-build` |
+| `ci-test` | Release test run | `ctest --preset ci-test` |
+
+The extra sanitizer and coverage presets mentioned in older template drafts are not defined in the current `CMakePresets.json` file.
 
 ### Quick Commands Cheat Sheet
 
@@ -200,24 +202,20 @@ ctest --preset dev-test --output-on-failure
 # One-liner
 cmake --preset dev && cmake --build --preset dev-build && ctest --preset dev-test
 
-# Release build
-cmake --preset release
-cmake --build --preset release-build
-ctest --preset release-test
+# Release-mode CI-equivalent build
+cmake --preset ci
+cmake --build --preset ci-build
+ctest --preset ci-test
 
-# Coverage
-cmake --preset coverage
-cmake --build --preset coverage-build
-ctest --preset coverage-test
+# Optional local coverage/sanitizer configuration
+# These are not shipped as presets in the current repository.
+cmake -S . -B build-coverage -DENABLE_COVERAGE=ON -DBUILD_TESTING=ON
+cmake --build build-coverage
+ctest --test-dir build-coverage --output-on-failure
 
-# Sanitizers
-cmake --preset sanitize-address
-cmake --build --preset sanitize-address-build
-ctest --preset sanitize-address-test
-
-# Documentation
-cmake --preset docs
-cmake --build --preset docs-build
+# Documentation build
+cmake -S . -B build-docs -DBUILD_TESTING=OFF -DBUILD_DOCS=ON
+cmake --build build-docs --target docs
 
 # Static analysis
 cmake --preset dev
@@ -446,6 +444,8 @@ clang --version
 cl --version  # Windows MSVC
 ```
 
+This repository currently requires CMake 3.25+ and a C++17 compiler, as defined in `CMakeLists.txt`.
+
 ### "Ninja not found"
 
 ```bash
@@ -463,13 +463,13 @@ brew install ninja
 
 ```bash
 # Ensure tests are enabled in CMake
-cmake --preset dev  # Has -DBUILD_TESTING=ON
+cmake --preset dev  # sets BUILD_TESTING=ON
 
 # Check test discovery
 ctest --preset dev-test -N
 
 # Verify test executable exists
-ls build-dev/tests/
+ls build/dev/tests/
 ```
 
 ### "clang-format not found"
@@ -504,6 +504,8 @@ pre-commit autoupdate
 3. Try **Dev Containers: Rebuild Container**.
 4. Check the VS Code output for the Dev Containers log.
 
+The repository does include a `.devcontainer/` folder, but the actual setup is driven by the contents of that directory rather than a separate top-level container guide.
+
 ### CI Fails Locally But Passes (or Vice Versa)
 
 | Issue | Fix |
@@ -519,25 +521,32 @@ pre-commit autoupdate
 ```text
 ohc-template-repo/
 ├── .devcontainer/
-│   ├── devcontainer.json
-│   └── setup.sh
 ├── .github/
+│   ├── ISSUE_TEMPLATE/
 │   ├── workflows/
 │   │   ├── ci.yml
-│   │   └── release.yml
-│   └── dependabot.yml
+│   │   └── docs.yml
+│   ├── CODEOWNERS
+│   ├── dependabot.yml
+│   └── pull_request_template.md
+├── cmake/
 ├── cmakehelpers/
-│   └── detect_generator.cmake
 ├── docs/
-│   └── release_checklist.md
+│   ├── CHANGELOG.md
+│   ├── CODE_OF_CONDUCT.md
+│   ├── CONTRIBUTING.md
+│   ├── NAMING_CONVENTIONS.md
+│   ├── README.md
+│   ├── SECURITY.md
+│   ├── release_checklist.md
+│   └── DoxyPage/
 ├── include/
-│   └── myproject/
-│       └── my_module.hpp
+│   └── template_module.hpp
 ├── src/
-│   └── my_module.cpp
+│   └── template_module.cpp
 ├── tests/
 │   ├── CMakeLists.txt
-│   └── test_my_module.cpp
+│   └── test_template_module.cpp
 ├── scripts/
 │   ├── rename-template.ps1
 │   └── rename-template.sh
@@ -546,20 +555,14 @@ ohc-template-repo/
 ├── .gitignore
 ├── .pre-commit-config.yaml
 ├── build_and_run_project.cmake
-├── CHANGELOG.md
 ├── CMakeLists.txt
 ├── CMakePresets.json
 ├── CMakeUserPresets.json.example
-├── CODE_OF_CONDUCT.md
-├── CONTRIBUTING.md
 ├── Doxyfile
 ├── GETTING_STARTED.md
 ├── LICENSE
 ├── main.cpp
-├── NAMING_CONVENTIONS.md
-├── README.md
-├── SECURITY.md
-└── TEMPLATE_IMPROVEMENTS.md
+└── .secrets.baseline
 ```
 
 ---
@@ -575,7 +578,7 @@ ohc-template-repo/
 
 ## Need Help?
 
-- **Template Issues**: see [TEMPLATE_IMPROVEMENTS.md](TEMPLATE_IMPROVEMENTS.md)
+- **Template docs**: see [docs/README.md](docs/README.md)
 - **CMake Issues**: see the [CMake docs](https://cmake.org/documentation/)
 - **CI Issues**: check the GitHub Actions logs
 - **General**: open an issue in the template repository
