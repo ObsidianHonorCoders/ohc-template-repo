@@ -1,7 +1,8 @@
 # OHC Template Repo
 
-A simple, production-ready C++ starter template for libraries and small
-applications.
+A single-project C++ starter template intended for one application or library per
+repository. It keeps the structure lean, explicit, and easy to customize without
+implying a multi-project or monorepo layout.
 
 ## What is included
 
@@ -62,6 +63,8 @@ For the full onboarding flow, see
 
 - [../GETTING_STARTED.md](../GETTING_STARTED.md) — first-run workflow and
   troubleshooting
+- [ARCHITECTURE.md](ARCHITECTURE.md) — project architecture and maintenance
+  rules for a single-project repo
 - [NAMING_CONVENTIONS.md](NAMING_CONVENTIONS.md) — naming rules and project
   cleanup guidance
 - [CHANGELOG.md](CHANGELOG.md) — release history
@@ -75,6 +78,9 @@ For the full onboarding flow, see
 │   └── setup.sh
 ├── .github/
 │   ├── ISSUE_TEMPLATE/
+│   │   ├── bug_report.md
+│   │   ├── config.yml
+│   │   └── feature_request.md
 │   ├── PULL_REQUEST_TEMPLATE/
 │   │   ├── default.md
 │   │   └── release.md
@@ -87,44 +93,54 @@ For the full onboarding flow, see
 ├── cmake/
 │   └── ohc_template_repo-config.cmake.in
 ├── docs/
+│   ├── DoxyPage/
+│   │   ├── custom.css
+│   │   ├── Doxyfile
+│   │   └── OHC-logo-lowresolution.png
+│   ├── ARCHITECTURE.md
 │   ├── CHANGELOG.md
 │   ├── CODE_OF_CONDUCT.md
 │   ├── CONTRIBUTING.md
+│   ├── LICENSE
 │   ├── NAMING_CONVENTIONS.md
 │   ├── README.md
-│   ├── SECURITY.md
-│   ├── release_checklist.md
-│   └── DoxyPage/
-│       ├── custom.css
-│       └── OHC-logo-lowresolution.png
+│   └── SECURITY.md
 ├── include/
-│   └── template_module.hpp
+│   ├── architecture/
+│   │   ├── acquisition.hpp
+│   │   ├── output.hpp
+│   │   └── processing.hpp
+│   ├── common/
+│   │   └── string_utils.hpp
+│   └── compatibility_api.hpp
 ├── scripts/
 │   ├── rename-template.ps1
 │   └── rename-template.sh
 ├── src/
-│   └── template_module.cpp
+│   ├── app/
+│   │   └── main.cpp
+│   ├── architecture/
+│   │   ├── acquisition.cpp
+│   │   ├── output.cpp
+│   │   └── processing.cpp
+│   ├── common/
+│   │   └── string_utils.cpp
+│   └── compatibility_api.cpp
 ├── tests/
-│   ├── CMakeLists.txt
-│   └── test_template_module.cpp
+│   ├── integration/
+│   │   └── test_pipeline.cpp
+│   ├── unit/
+│   │   └── test_template_module.cpp
+│   └── CMakeLists.txt
 ├── .clang-format
 ├── .editorconfig
+├── .gitattributes
 ├── .gitignore
 ├── .pre-commit-config.yaml
 ├── .secrets.baseline
 ├── CMakeLists.txt
 ├── CMakePresets.json
-├── GETTING_STARTED.md
-├── LICENSE
-├── main.cpp
-├── README.md
-├── SECURITY.md
-└── docs/
-    ├── DoxyPage/
-    │   ├── Doxyfile
-    │   ├── custom.css
-    │   └── OHC-logo-lowresolution.png
-    ├── ...
+└── GETTING_STARTED.md
 ```
 
 ## Template usage checklist
