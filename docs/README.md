@@ -16,8 +16,8 @@ implying a multi-project or monorepo layout.
 
 ## Template status
 
-- Version: v2.0.0
-- Latest review: 2026-08-29
+- Version: v2.1.0
+- Latest review: 2026-09-02
 - Goal: complete, simple, and easy to personalize
 
 ## Quick start
