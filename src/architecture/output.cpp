@@ -17,7 +17,7 @@ namespace template_repo::output
   {
     // Generate appropriate greeting based on processed input
     std::string message;
-    
+
     if (processed_input.value.empty())
     {
       // Default greeting when no name provided
@@ -28,7 +28,7 @@ namespace template_repo::output
       // Personalized greeting with the processed name
       message = "Hello " + processed_input.value + " from OHC template repo";
     }
-    
+
     // Return structured output with destination tracking
     return {message, "stdout"};
   }

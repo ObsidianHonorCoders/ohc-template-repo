@@ -17,10 +17,10 @@ namespace template_repo
   {
     // Stage 1: Acquire and normalize input
     const auto acquired_input = input::AcquireInput(name);
-    
+
     // Stage 2: Process the acquired input
     const auto processed_input = processing::ProcessInput(acquired_input);
-    
+
     // Stage 3: Generate output from processed input
     return output::BuildOutput(processed_input).message;
   }
