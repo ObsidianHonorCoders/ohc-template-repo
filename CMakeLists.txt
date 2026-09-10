@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.25)
 # Project configuration
 project(
   ohc_template_repo
-  VERSION 2.1.1
+  VERSION 2.1.2
   LANGUAGES CXX
   DESCRIPTION "OHC C++ Project Template"
   HOMEPAGE_URL "https://github.com/ObsidianHonorCoders/ohc-template-repo")

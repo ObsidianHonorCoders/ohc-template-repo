@@ -7,6 +7,13 @@ The format is based on
 adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.2] - 2026-09-09
+
+### Fixed in v2.1.2
+
+- **CODE_OF_CONDUCT** — Removed HTML markup for image
+- **GitHub Actions** — Fixed pre-commit check issue
+
 ## [2.1.1] - 2026-09-09
 
 ### Changed in v2.1.1
