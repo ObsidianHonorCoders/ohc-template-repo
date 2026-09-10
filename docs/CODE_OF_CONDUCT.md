@@ -1,6 +1,6 @@
 # Code of Conduct - Obsidian Honor Coders
 
-![Medalla de Honor](https://github.com/user-attachments/assets/0ab6a9e8-c9b5-484e-96c4-ad0402239d23)
+<img width="224" alt="medalla-honor" src="https://github.com/user-attachments/assets/0ab6a9e8-c9b5-484e-96c4-ad0402239d23" />
 
 ## The Path of the Jaguar Warrior
 
