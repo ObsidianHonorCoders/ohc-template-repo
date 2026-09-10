@@ -7,6 +7,12 @@ The format is based on
 adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.1] - 2026-09-09
+
+### Changed in v2.1.1
+
+- **Version bump** — updated project version to 2.1.1 across CMakeLists.txt, Doxyfile, and docs/README.md
+
 ## [2.1.0] - 2026-09-02
 
 ### Added in v2.1.0
