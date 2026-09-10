@@ -1,72 +1,53 @@
-# Release PR Template
+# Pull Request
 
-## Release Summary
+## Summary
 
-Describe the release being prepared and the intention of this PR.
+Provide a short description of what this PR changes and why.
 
-- Target version/tag:
-- Release type:
-  - [ ] Patch
-  - [ ] Minor
-  - [ ] Major
-- Scope of change:
+## Type of Change
 
-## Code and Build
+Select one or more:
 
-- [ ] Project configures successfully with CMake
-- [ ] Project builds successfully in Release mode
-- [ ] Unit/integration tests pass
-- [ ] No new compiler warnings introduced
-- [ ] Local verification commands recorded below
+- [ ] Feature
+- [ ] Bug fix
+- [ ] Refactor
+- [ ] Performance improvement
+- [ ] Documentation update
+- [ ] Build/CI/Tooling
+- [ ] Release preparation
 
-Verification commands and evidence:
+## Scope
+
+Describe the impacted areas (modules, APIs, components, docs).
+
+## Testing & Verification
+
+List the verification performed:
+
+- [ ] Build passes locally
+- [ ] Existing tests pass
+- [ ] New/updated tests added (if applicable)
+- [ ] Manual validation completed (if applicable)
+
+Test evidence (commands, outputs, screenshots, notes):
 
 ```bash
 # Example:
 cmake --preset dev
 cmake --build --preset dev-build
 ctest --preset dev-test --output-on-failure
-cmake --preset ci
-cmake --build --preset ci-build
-ctest --preset ci-test --output-on-failure
 ```
 
-## Documentation and Governance
+## Code Quality Checklist
 
-- [ ] README reflects current commands and behavior
-- [ ] CONTRIBUTING and PR template are up to date
-- [ ] SECURITY policy is present and accurate
-- [ ] License file is present and correct
-- [ ] Changelog/release notes reflect the release state
+- [ ] Code follows project style and conventions
+- [ ] No new compiler warnings introduced
+- [ ] Documentation updated where needed
+- [ ] PR is focused and ready for review
 
-## CI and Repository Health
-
-- [ ] Pre-commit checks pass
-- [ ] CI workflow runs green on required platforms
-- [ ] Static analysis passes
-- [ ] Formatting checks pass
-- [ ] Security scan is clean or any findings are explicitly acknowledged
-- [ ] CODEOWNERS reflects active maintainers
-- [ ] Issue templates are configured and usable
-- [ ] .gitignore covers generated artifacts for active toolchain(s)
-
-## Release Artifacts
-
-- [ ] Version/tag updated in release notes
-- [ ] Breaking changes documented (if any)
-- [ ] Migration notes included (if needed)
-- [ ] Release notes / changelog entry is ready for publication
-
-## Compatibility and Risks
+## Breaking Changes
 
 - [ ] No breaking changes
-- [ ] Breaking changes included; migration steps are documented below
+- [ ] Breaking changes included (describe below)
 
-Migration or compatibility notes:
-
-## Final Release Checklist
-
-- [ ] Release branch/PR is focused on this release only
-- [ ] All required CI jobs are green
-- [ ] Documentation is accurate and current
-- [ ] Release is ready to be tagged and published
+If breaking changes exist, describe migration steps:
