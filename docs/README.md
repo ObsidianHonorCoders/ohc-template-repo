@@ -14,12 +14,6 @@ implying a multi-project or monorepo layout.
 - Dev container support for fast onboarding
 - Rename helper for adapting the template to a real project name
 
-## Template status
-
-- Version: v2.1.1
-- Latest review: 2026-09-09
-- Goal: complete, simple, and easy to personalize
-
 ## Quick start
 
 ```powershell
@@ -57,17 +51,20 @@ If a hook auto-fixes files (for example `cmake-format`), run the command again
 to confirm the repo is clean.
 
 For the full onboarding flow, see
-[../GETTING_STARTED.md](../GETTING_STARTED.md).
+[GETTING_STARTED.md](../GETTING_STARTED.md).
 
 ## Core docs
 
-- [../GETTING_STARTED.md](../GETTING_STARTED.md) — first-run workflow and
+- [GETTING_STARTED.md](../GETTING_STARTED.md) — first-run workflow and
   troubleshooting
 - [ARCHITECTURE.md](ARCHITECTURE.md) — project architecture and maintenance
   rules for a single-project repo
 - [NAMING_CONVENTIONS.md](NAMING_CONVENTIONS.md) — naming rules and project
   cleanup guidance
 - [CHANGELOG.md](CHANGELOG.md) — release history
+- [API Documentation (Doxygen)](
+    https://obsidianhonorcoders.github.io/ohc-template-repo/
+  ) — generated API reference
 
 ## Repository layout
 
