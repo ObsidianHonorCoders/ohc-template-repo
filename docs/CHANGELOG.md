@@ -11,7 +11,7 @@ adheres to
 
 ### Changed in v2.1.1
 
-- **Version bump** — updated project version to 2.1.1 across CMakeLists.txt, Doxyfile, and docs/README.md
+- **GitHub Actions Fix** — Minor bugfix to github actions.
 
 ## [2.1.0] - 2026-09-02
 
