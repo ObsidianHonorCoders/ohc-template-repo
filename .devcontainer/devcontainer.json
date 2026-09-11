@@ -1,42 +1,33 @@
 {
   "name": "OHC C++ Template",
-  "description": "Development container for OHC C++ template
-                  repository",
-  // Base image: Ubuntu 24.04 with C++ build tools
+  "description": "Development container for OHC C++ template repository",
   "image": "mcr.microsoft.com/devcontainers/cpp:1-ubuntu-24.04",
   "customizations": {
     "vscode": {
-      // VS Code extensions to install in container
       "extensions": [
-        "ms-vscode.cpptools",           // C++ IntelliSense
-        "ms-vscode.cpptools-extension-pack",  // C++ pack
-        "ms-vscode.cmake-tools",        // CMake integration
-        "twxs.cmake",                   // CMake syntax
-        "cschlosser.doxdocgen",         // Doxygen docs
-        "streetsidesoftware.code-spell-checker",  // Spell
-        "davidanson.vscode-markdownlint",  // Markdown lint
-        "redhat.vscode-yaml",           // YAML syntax
-        "tamasfe.even-better-toml",     // TOML syntax
-        "github.vscode-pull-request-github",  // GitHub PR
-        "github.copilot",               // GitHub Copilot
-        "github.copilot-chat"           // Copilot Chat
+        "ms-vscode.cpptools",
+        "ms-vscode.cpptools-extension-pack",
+        "ms-vscode.cmake-tools",
+        "twxs.cmake",
+        "cschlosser.doxdocgen",
+        "streetsidesoftware.code-spell-checker",
+        "davidanson.vscode-markdownlint",
+        "redhat.vscode-yaml",
+        "tamasfe.even-better-toml",
+        "github.vscode-pull-request-github",
+        "github.copilot",
+        "github.copilot-chat"
       ],
       "settings": {
-        // CMake auto-configure on folder open
         "cmake.configureOnOpen": true,
-        // Build before running tests
         "cmake.buildBeforeRun": true,
-        // Use Ninja generator for faster builds
         "cmake.generator": "Ninja",
-        // C++ formatting options
         "C_Cpp.clang_format_path": "/usr/bin/clang-format",
         "C_Cpp.clang_format_style": "file",
         "editor.formatOnSave": true,
         "editor.formatOnPaste": true,
-        // File cleanup options
         "files.trimTrailingWhitespace": true,
         "files.insertFinalNewline": true,
-        // CMake and C++ indentation
         "[cmake]": {
           "editor.tabSize": 4,
           "editor.insertSpaces": true
@@ -48,19 +39,12 @@
       }
     }
   },
-  // No forwarded ports by default
   "forwardPorts": [],
-  // Container mounts to workspace folder
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
-  // Run setup script after container is created
   "postCreateCommand": "bash .devcontainer/setup.sh",
-  // Run container as 'vscode' user
   "remoteUser": "vscode",
-  // Container runtime arguments
   "runArgs": [
-    // Allow ptrace for debugging
     "--cap-add=SYS_PTRACE",
-    // Disable seccomp restrictions for debugging
     "--security-opt=seccomp=unconfined"
   ]
 }

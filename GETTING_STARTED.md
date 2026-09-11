@@ -63,7 +63,7 @@ Doxygen) are recommended but not required.
    https://www.docker.com/products/docker-desktop/)
 2. Install [VS Code](https://code.visualstudio.com/) and the
    [Dev Containers extension](
-   https://marketplace.visualstudio.com/items?
+   <https://marketplace.visualstudio.com/items>?
    itemName=ms-vscode-remote.remote-containers)
 3. Open this folder in VS Code → **Reopen in Container**
 
@@ -137,6 +137,7 @@ ctest --preset ci-test --output-on-failure
 ```
 
 List all available presets:
+
 ```bash
 cmake --list-presets
 ```
@@ -176,6 +177,7 @@ For troubleshooting pre-commit, see
 **Reopen in Container** from the command palette.
 
 **Without Dev Container**: Install these extensions:
+
 - C/C++ Extension Pack
 - CMake Tools
 - Doxygen Documentation Generator
@@ -249,6 +251,7 @@ clang-format -i src/*.cpp include/*.hpp tests/*.cpp
 ```
 
 Or use pre-commit to auto-fix:
+
 ```bash
 pre-commit run clang-format --all-files
 ```
@@ -290,7 +293,8 @@ See the full documentation suite in `docs/`:
 │   │   └── docs.yml
 │   ├── CODEOWNERS
 │   ├── dependabot.yml
-│   └── pull_request_template.md
+│   ├── pull_request_template.md
+│   └── .secrets.baseline
 ├── cmake/
 │   └── ohc_template_repo-config.cmake.in
 ├── docs/
@@ -334,7 +338,6 @@ See the full documentation suite in `docs/`:
 ├── .gitattributes
 ├── .gitignore
 ├── .pre-commit-config.yaml
-├── .secrets.baseline
 ├── CMakeLists.txt
 ├── CMakePresets.json
 └── GETTING_STARTED.md
@@ -363,7 +366,8 @@ versions if needed.
 ├── .gitattributes
 ├── .gitignore
 ├── .pre-commit-config.yaml
-├── .secrets.baseline
+├── .github/
+│   └── .secrets.baseline
 ├── CMakeLists.txt
 ├── CMakePresets.json
 └── GETTING_STARTED.md

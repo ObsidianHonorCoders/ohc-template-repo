@@ -7,7 +7,7 @@ https://github.com/google/googletest) for unit and integration testing.
 
 Tests are located in `tests/` with two categories:
 
-```
+```text
 tests/
 ├── unit/
 │   └── test_template_module.cpp    # Component-level tests
@@ -89,11 +89,13 @@ TEST(ArchitectureUnitTests, FunctionDoesExpectedThing)
 ### Naming Conventions
 
 **Suite name**: PascalCase, descriptive
+
 - `ArchitectureUnitTests`
 - `CompatibilityApiTests`
 - `EndToEndTests`
 
 **Test name**: PascalCase, describes what it tests
+
 - `AcquisitionNormalizesInput`
 - `BuildGreetingWithName`
 - `EndToEndPipelineProducesGreeting`
@@ -124,17 +126,19 @@ EXPECT_THROW(function(), ExceptionType);
 ```
 
 For complete reference, see
-[GTest Assertions](https://google.github.io/googletest/reference/
+[GTest Assertions](<https://google.github.io/googletest/reference/>
 assertions.html).
 
 ## Adding a New Test File
 
 1. Create file in appropriate directory:
-   ```
+
+   ```text
    tests/unit/test_my_module.cpp
    ```
 
 2. Include headers:
+
    ```cpp
    #include "my_module.hpp"
    #include <gtest/gtest.h>
@@ -157,6 +161,7 @@ CMakeLists.txt. No manual installation needed.
 ## Continuous Integration
 
 All tests run in GitHub Actions on:
+
 - Linux (GCC + Clang)
 - Windows (MSVC + MinGW)
 - macOS (Clang)
@@ -201,7 +206,7 @@ TEST(MyTest, WithMock)
 }
 ```
 
-See [GTest Mocking](https://google.github.io/googletest/
+See [GTest Mocking](<https://google.github.io/googletest/>
 gmock_for_dummies.html) for details.
 
 ## Coverage Analysis

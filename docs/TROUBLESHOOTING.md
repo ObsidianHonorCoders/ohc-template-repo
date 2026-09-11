@@ -29,6 +29,7 @@ Verify: `cmake --version` should show 3.25+
 
 **Cause**: Ninja is not installed or not in PATH
 **Solution A**: Install Ninja
+
 ```bash
 # Linux
 sudo apt-get install ninja-build
@@ -41,6 +42,7 @@ choco install ninja
 ```
 
 **Solution B**: Use different generator
+
 ```bash
 cmake -S . -B build -G "Unix Makefiles"
 ```
@@ -54,12 +56,14 @@ See [DEPENDENCIES.md](DEPENDENCIES.md) for platform-specific
 instructions.
 
 **Or specify compiler explicitly**:
+
 ```bash
 cmake -S . -B build \
   -DCMAKE_CXX_COMPILER=/path/to/compiler
 ```
 
 Find available compilers:
+
 ```bash
 # Linux/macOS
 which gcc g++ clang clang++
@@ -128,11 +132,13 @@ xcode-select --install
 
 **Cause**: `OHC_ENABLE_WERROR=ON` (default)
 **Solution A**: Fix the warning
+
 - Add missing includes
 - Remove unused variables
 - Fix deprecated function calls
 
 **Solution B**: Temporarily disable for testing
+
 ```bash
 cmake -S . -B build -DOHC_ENABLE_WERROR=OFF
 ```
@@ -154,6 +160,7 @@ correctly
 **Solution A**: Check internet connection
 
 **Solution B**: Verbose output to see error
+
 ```bash
 cmake -S . -B build -DFETCHCONTENT_QUIET=OFF
 ```
@@ -176,6 +183,7 @@ TEST(MyTest, DebugExample)
 ```
 
 Run with output:
+
 ```bash
 ctest --preset dev-test --output-on-failure
 ```
@@ -184,7 +192,8 @@ ctest --preset dev-test --output-on-failure
 
 **Cause**: Race condition, uninitialized state, or external
 dependency
-**Solution**: 
+**Solution**:
+
 1. Check for shared state between tests
 2. Initialize all variables
 3. Check for timing-dependent code
@@ -230,6 +239,7 @@ find src include tests -name "*.cpp" -o -name "*.hpp" | \
 ```
 
 Or let pre-commit do it:
+
 ```bash
 pre-commit run --all-files  # Auto-fixes formatting
 git add .
@@ -324,7 +334,7 @@ sudo systemctl start docker
 **Cause**: Visual Studio or Build Tools not installed
 **Solution**: Install Visual Studio 2022 Community
 
-- Download: https://visualstudio.microsoft.com/
+- Download: <https://visualstudio.microsoft.com/>
 - Workload: "Desktop development with C++"
 - Include: C++, CMake, Ninja
 

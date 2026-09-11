@@ -11,7 +11,7 @@ as a system package.
 
 ### What Gets Installed
 
-```
+```text
 /usr/local/
 ├── lib/
 │   └── libtemplate_module.a         # Static library
@@ -32,6 +32,7 @@ as a system package.
 ### Default Installation Path
 
 Installs to system standard locations (Linux/macOS):
+
 - Libraries: `/usr/local/lib/`
 - Headers: `/usr/local/include/`
 - Executables: `/usr/local/bin/`
@@ -61,7 +62,7 @@ ctest --preset ci-test --output-on-failure
 
 ### System-Wide Installation
 
-**Requires admin/sudo access**
+#### Requires admin/sudo access
 
 ```bash
 # Install to default locations
@@ -74,7 +75,7 @@ ls /usr/local/lib/libtemplate_module.a
 
 ### User-Local Installation
 
-**No admin required, installs to home directory**
+#### No admin required, installs to home directory
 
 ```bash
 # Install to ~/.local/
@@ -123,6 +124,7 @@ Requires your project provides CMake config files
 (generated from `cmake/template_repo-config.cmake.in`).
 
 **In downstream CMakeLists.txt**:
+
 ```cmake
 cmake_minimum_required(VERSION 3.25)
 project(my_app)
@@ -138,6 +140,7 @@ target_link_libraries(my_app PRIVATE template_repo::template_module)
 ```
 
 **Configure downstream project**:
+
 ```bash
 cmake -S . -B build -DCMAKE_PREFIX_PATH=/usr/local
 cmake --build build
@@ -176,6 +179,7 @@ g++ -o my_app main.cpp $(pkg-config --cflags --libs template_repo)
 Create `.deb` package for distribution on Debian/Ubuntu systems.
 
 **Simple approach** (requires `debhelper`):
+
 ```bash
 apt-get install debhelper
 cd /path/to/repo
@@ -190,6 +194,7 @@ machines.
 Create `.rpm` package for Red Hat/Fedora systems.
 
 **Using CMake and CPack**:
+
 ```bash
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
 cpack --config CPackConfig.cmake -G RPM
@@ -202,6 +207,7 @@ Generates `.rpm` file in `build/`.
 Use CMake's CPack to generate installers automatically.
 
 **Configure CPack in CMakeLists.txt**:
+
 ```cmake
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
@@ -209,6 +215,7 @@ include(CPack)
 ```
 
 **Then generate**:
+
 ```bash
 cmake -S . -B build -DBUILD_TESTING=OFF
 cd build && cpack -G ZIP  # Windows ZIP
@@ -255,6 +262,7 @@ https://semver.org/):
 - **PATCH** (2.1.2 → 2.1.3): Bug fixes only
 
 Update version in:
+
 1. `CMakeLists.txt` line with `VERSION`
 2. Git tag as `vMAJOR.MINOR.PATCH`
 3. `docs/CHANGELOG.md`

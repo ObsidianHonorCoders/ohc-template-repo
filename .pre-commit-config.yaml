@@ -64,7 +64,7 @@ repos:
     rev: v1.5.0
     hooks:
       - id: detect-secrets
-        args: ["--baseline", ".secrets.baseline"]
+        args: ["--baseline", ".github/.secrets.baseline"]
         exclude: package-lock\.json$
 
   # TODO/FIXME tracker

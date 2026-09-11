@@ -6,6 +6,7 @@ developing with the OHC template.
 ## Quick Reference
 
 **Configure and build using presets** (recommended):
+
 ```bash
 # Developer build (Debug)
 cmake --preset dev
@@ -151,6 +152,7 @@ The project defines these CMake targets:
 | `docs` | Custom | Doxygen HTML |
 
 Build specific target:
+
 ```bash
 cmake --build build --target template_module
 cmake --build build --target docs
@@ -167,11 +169,13 @@ sudo cmake --install build
 ```
 
 **Install location** (default):
+
 - Libraries: `/usr/local/lib/`
 - Headers: `/usr/local/include/`
 - Executables: `/usr/local/bin/`
 
 **Custom install prefix**:
+
 ```bash
 cmake -S . -B build -DCMAKE_INSTALL_PREFIX=/opt/myapp
 cmake --install build
@@ -184,6 +188,7 @@ CMake can generate build files for different tools:
 ### Ninja (Recommended)
 
 Fastest, most common in modern projects:
+
 ```bash
 cmake -S . -B build -G Ninja
 cmake --build build
@@ -192,6 +197,7 @@ cmake --build build
 ### Unix Makefiles
 
 Standard on Linux/macOS:
+
 ```bash
 cmake -S . -B build -G "Unix Makefiles"
 make -C build -j4
@@ -200,6 +206,7 @@ make -C build -j4
 ### Visual Studio (Windows)
 
 MSVC integrated environment:
+
 ```powershell
 cmake -S . -B build -G "Visual Studio 17"
 cmake --build build --config Release
@@ -208,6 +215,7 @@ cmake --build build --config Release
 ### Xcode (macOS)
 
 macOS IDE integration:
+
 ```bash
 cmake -S . -B build -G Xcode
 cmake --build build --config Debug
@@ -225,6 +233,7 @@ build artifacts in `build/`. This keeps repo clean.
 ### CMAKE_BUILD_PARALLEL_LEVEL
 
 Set default parallel build jobs:
+
 ```bash
 export CMAKE_BUILD_PARALLEL_LEVEL=8
 cmake --build build  # Uses 8 jobs
@@ -233,6 +242,7 @@ cmake --build build  # Uses 8 jobs
 ### CC and CXX
 
 Set compiler:
+
 ```bash
 export CC=gcc-11
 export CXX=g++-11
@@ -255,6 +265,7 @@ disable with `-DOHC_ENABLE_WERROR=OFF`
 
 **"Configuration cache conflict"**: Delete `build/` and
 reconfigure:
+
 ```bash
 rm -rf build/
 cmake --preset dev

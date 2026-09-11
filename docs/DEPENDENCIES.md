@@ -17,11 +17,13 @@ the OHC C++ template.
 ### Windows
 
 **Recommended**: Visual Studio 2022 Community Edition
-- Download: https://visualstudio.microsoft.com/
+
+- Download: <https://visualstudio.microsoft.com/>
 - Required workload: "Desktop development with C++"
 - Includes MSVC, CMake, and Ninja
 
 **Alternative**: MinGW-w64
+
 ```powershell
 choco install mingw  # via Chocolatey
 ```
@@ -29,11 +31,13 @@ choco install mingw  # via Chocolatey
 ### Linux
 
 **GCC 11+ (Recommended)**:
+
 ```bash
 sudo apt-get install build-essential cmake ninja-build
 ```
 
 **Clang 14+ (Alternative)**:
+
 ```bash
 sudo apt-get install clang cmake ninja-build
 ```
@@ -41,11 +45,13 @@ sudo apt-get install clang cmake ninja-build
 ### macOS
 
 **Xcode Command Line Tools (Recommended)**:
+
 ```bash
 xcode-select --install
 ```
 
 **Homebrew (Alternative)**:
+
 ```bash
 brew install gcc cmake ninja
 ```
@@ -63,18 +69,21 @@ brew install gcc cmake ninja
 ### Install Optional Tools
 
 **Linux**:
+
 ```bash
 sudo apt-get install clang-format clang-tidy doxygen cppcheck
 python3 -m pip install pre-commit
 ```
 
 **macOS**:
+
 ```bash
 brew install clang-format doxygen cppcheck
 pip install pre-commit
 ```
 
 **Windows (via Chocolatey)**:
+
 ```powershell
 choco install llvm doxygen.install cppcheck
 python -m pip install pre-commit
@@ -84,14 +93,15 @@ python -m pip install pre-commit
 
 **No local installation needed!** Use Docker + VS Code:
 
-1. Install [Docker Desktop](https://www.docker.com/products/
+1. Install [Docker Desktop](<https://www.docker.com/products/>
    docker-desktop/)
 2. Install [VS Code](https://code.visualstudio.com/) +
-   [Dev Containers extension](https://marketplace.visualstudio.com/
+   [Dev Containers extension](<https://marketplace.visualstudio.com/>
    items?itemName=ms-vscode-remote.remote-containers)
 3. Open folder in VS Code → **Reopen in Container**
 
 The container includes:
+
 - CMake 3.28, Ninja
 - GCC 13, Clang 18
 - Doxygen, cppcheck, valgrind, lcov

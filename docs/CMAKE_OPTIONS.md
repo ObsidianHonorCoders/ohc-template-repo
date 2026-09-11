@@ -40,6 +40,7 @@ cmake -S . -B build -DBUILD_TESTING=OFF  # Skip tests
 **Presets**: dev and ci both enable this
 
 **Related**: Use `ctest` to run tests after build:
+
 ```bash
 cmake --build build
 ctest --preset dev-test --output-on-failure
@@ -63,6 +64,7 @@ cmake -S . -B build -DOHC_ENABLE_WERROR=OFF
 **Rationale**: Prevents warning accumulation; catch issues early
 
 **Use when**: Relaxing for experimental code or legacy warnings:
+
 ```bash
 cmake -S . -B build -DOHC_ENABLE_WERROR=OFF \
   -DCMAKE_BUILD_TYPE=Debug
@@ -85,6 +87,7 @@ cmake -S . -B build -DENABLE_SANITIZERS=ON
 **Use when**: Hunting memory leaks or undefined behavior
 
 **Example**:
+
 ```bash
 cmake -S . -B build -DENABLE_SANITIZERS=ON \
   -DCMAKE_BUILD_TYPE=Debug
@@ -106,6 +109,7 @@ cmake -S . -B build -DENABLE_COVERAGE=ON
 **Tools**: Use `lcov` or `gcov` to analyze coverage
 
 **Example**:
+
 ```bash
 cmake -S . -B build -DENABLE_COVERAGE=ON
 cmake --build build
@@ -128,6 +132,7 @@ cmake -S . -B build -DBUILD_DOCS=ON
 **Output**: `build/html/index.html` (see generated docs)
 
 **Example**:
+
 ```bash
 cmake -S . -B build -DBUILD_DOCS=ON
 cmake --build build --target docs
@@ -189,18 +194,21 @@ See [CMakePresets.json](../CMakePresets.json) for preset definitions.
 ## Common Combinations
 
 ### Debug with Sanitizers (development)
+
 ```bash
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug \
   -DENABLE_SANITIZERS=ON -DBUILD_TESTING=ON
 ```
 
 ### Release with Coverage (CI)
+
 ```bash
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Release \
   -DENABLE_COVERAGE=ON -DBUILD_TESTING=ON
 ```
 
 ### Strict Mode (CI checks)
+
 ```bash
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug \
   -DOHC_ENABLE_WERROR=ON -DBUILD_TESTING=ON
