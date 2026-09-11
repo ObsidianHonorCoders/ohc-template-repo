@@ -66,6 +66,20 @@ For the full onboarding flow, see
     https://obsidianhonorcoders.github.io/ohc-template-repo/
   ) — generated API reference
 
+## Community health files
+
+This template uses default community health files from the organization `.github`
+repository:
+
+- **CODE_OF_CONDUCT.md** — Community standards and expectations
+- **CONTRIBUTING.md** — Contribution guidelines and workflow
+- **SECURITY.md** — Security reporting policy
+- **SUPPORT.md** — Getting help and support
+- **ISSUE_TEMPLATE/** — Issue and feature request templates
+
+These are automatically inherited by all Obsidian Honor Coders repositories.
+Projects may override them locally if project-specific policies are needed.
+
 ## Repository layout
 
 ```text
@@ -74,13 +88,6 @@ For the full onboarding flow, see
 │   ├── devcontainer.json
 │   └── setup.sh
 ├── .github/
-│   ├── ISSUE_TEMPLATE/
-│   │   ├── bug_report.md
-│   │   ├── config.yml
-│   │   └── feature_request.md
-│   ├── PULL_REQUEST_TEMPLATE/
-│   │   ├── default.md
-│   │   └── release.md
 │   ├── workflows/
 │   │   ├── ci.yml
 │   │   └── docs.yml
@@ -96,12 +103,8 @@ For the full onboarding flow, see
 │   │   └── OHC-logo-lowresolution.png
 │   ├── ARCHITECTURE.md
 │   ├── CHANGELOG.md
-│   ├── CODE_OF_CONDUCT.md
-│   ├── CONTRIBUTING.md
-│   ├── LICENSE
 │   ├── NAMING_CONVENTIONS.md
-│   ├── README.md
-│   └── SECURITY.md
+│   └── README.md
 ├── include/
 │   ├── architecture/
 │   │   ├── acquisition.hpp
