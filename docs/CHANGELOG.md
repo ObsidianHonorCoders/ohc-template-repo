@@ -7,6 +7,54 @@ The format is based on
 adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.0] - 2026-09-10
+
+### Added in v2.2.0
+
+- **Comprehensive documentation suite** — Five new guide files with 80-column
+  formatting:
+  - `docs/DEPENDENCIES.md` — Platform-specific installation and tool setup
+    for Windows, Linux, and macOS; includes dev container quick start
+  - `docs/CMAKE_CONFIGURATION.md` — CMake workflows, presets (dev vs ci),
+    manual configuration, build commands, generators, and installation
+  - `docs/CMAKE_OPTIONS.md` — Complete reference of all CMake options
+    (`BUILD_TESTING`, `OHC_ENABLE_WERROR`, `ENABLE_SANITIZERS`,
+    `ENABLE_COVERAGE`, `BUILD_DOCS`) with examples and common combinations
+  - `docs/TESTING.md` — GoogleTest patterns, test organization (unit vs
+    integration), writing tests, naming conventions, assertions, mocking,
+    coverage analysis, and best practices
+  - `docs/TROUBLESHOOTING.md` — Solutions for CMake issues, build failures,
+    test problems, pre-commit hook issues, installation problems, and
+    platform-specific quirks (Windows, dev containers)
+  - `docs/PACKAGING.md` — Building, installing, and distributing packages;
+    consuming installed libraries with `find_package()`; CPack; release
+    checklist; semantic versioning and backwards compatibility
+- **Inline documentation comments** — Added detailed comments to:
+  - `.devcontainer/devcontainer.json` — Explains each extension, setting,
+    and container configuration
+  - `.github/workflows/ci.yml` — Documents each job's scope, tools, and
+    triggers; explains build matrix rationale
+
+### Changed in v2.2.0
+
+- **GETTING_STARTED.md** — Streamlined to focus on quick start; moved
+  prerequisites detail to `docs/DEPENDENCIES.md`, CMake workflows to
+  `docs/CMAKE_CONFIGURATION.md`, and common tasks to specialized guides;
+  added navigation links throughout
+- **docs/README.md** — Updated core docs section with links to all new
+  documentation files
+- **Removed `.secrets.baseline`** — File was incomplete placeholder; secret
+  detection now managed by pre-commit framework
+
+### Documentation Improvements
+
+- All markdown documentation now adheres to 80-column line limit for
+  readability in terminal and text editors
+- Cross-linked documentation guides for better navigation
+- Comprehensive troubleshooting guide reduces support friction
+- Clear separation of concerns: dependencies, configuration, testing,
+  packaging, and architecture in dedicated guides
+
 ## [2.1.2] - 2026-09-09
 
 ### Fixed in v2.1.2

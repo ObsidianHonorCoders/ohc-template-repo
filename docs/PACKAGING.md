@@ -231,7 +231,7 @@ Package source code for redistribution:
 # Create tarball of source
 cd ..
 tar --exclude-vcs --exclude build --exclude .github \
-  -czf template_repo-2.1.2.tar.gz template_repo/
+  -czf template_repo-2.2.0.tar.gz template_repo/
 
 # Or use cmake
 cmake --preset ci
@@ -250,7 +250,7 @@ Before releasing a distribution package:
 - [ ] Generate documentation: `cmake --build build --target docs`
 - [ ] Verify installation: `cmake --install build --prefix /tmp/test-install`
 - [ ] Test consumption in downstream project
-- [ ] Tag release: `git tag v2.1.2 && git push --tags`
+- [ ] Tag release: `git tag v2.2.0 && git push --tags`
 
 ## Semantic Versioning
 
