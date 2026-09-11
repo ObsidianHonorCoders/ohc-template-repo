@@ -65,7 +65,7 @@ repos:
     hooks:
       - id: detect-secrets
         args: ["--baseline", ".github/.secrets.baseline"]
-        exclude: package-lock\.json$
+        exclude: package-lock\.json$|^\.github/\.secrets\.baseline$
 
   # TODO/FIXME tracker
   - repo: https://github.com/pre-commit/pre-commit-hooks
