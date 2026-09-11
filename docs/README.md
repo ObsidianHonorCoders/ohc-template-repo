@@ -38,6 +38,8 @@ cmake -S . -B build -DOHC_ENABLE_WERROR=OFF
 
 ### Local pre-commit checks
 
+Install and run pre-commit hooks for code quality:
+
 ```bash
 python3 -m venv .venv
 . .venv/bin/activate
@@ -47,24 +49,36 @@ pre-commit install --install-hooks
 pre-commit run --all-files
 ```
 
-If a hook auto-fixes files (for example `cmake-format`), run the command again
-to confirm the repo is clean.
+If a hook auto-fixes files (e.g., `cmake-format`), run the
+command again to confirm the repo is clean.
 
-For the full onboarding flow, see
-[GETTING_STARTED.md](../GETTING_STARTED.md).
+See [GETTING_STARTED.md](../GETTING_STARTED.md) and
+[TESTING.md](TESTING.md) for more details.
 
 ## Core docs
 
-- [GETTING_STARTED.md](../GETTING_STARTED.md) — first-run workflow and
-  troubleshooting
-- [ARCHITECTURE.md](ARCHITECTURE.md) — project architecture and maintenance
-  rules for a single-project repo
-- [NAMING_CONVENTIONS.md](NAMING_CONVENTIONS.md) — naming rules and project
-  cleanup guidance
-- [CHANGELOG.md](CHANGELOG.md) — release history
+- [GETTING_STARTED.md](../GETTING_STARTED.md) — Quick start
+  and first-run workflow
+- [ARCHITECTURE.md](ARCHITECTURE.md) — Project architecture
+  and design
+- [DEPENDENCIES.md](DEPENDENCIES.md) — Installation by
+  platform
+- [CMAKE_CONFIGURATION.md](CMAKE_CONFIGURATION.md) — CMake
+  workflows, presets, and generators
+- [CMAKE_OPTIONS.md](CMAKE_OPTIONS.md) — All CMake options
+  reference
+- [TESTING.md](TESTING.md) — Writing and running tests with
+  GoogleTest
+- [TROUBLESHOOTING.md](TROUBLESHOOTING.md) — Common issues
+  and solutions
+- [PACKAGING.md](PACKAGING.md) — Building, installing, and
+  distributing packages
+- [NAMING_CONVENTIONS.md](NAMING_CONVENTIONS.md) — Naming
+  rules and cleanup guidance
+- [CHANGELOG.md](CHANGELOG.md) — Release history
 - [API Documentation (Doxygen)](
     https://obsidianhonorcoders.github.io/ohc-template-repo/
-  ) — generated API reference
+  ) — Generated API reference
 
 ## Community health files
 

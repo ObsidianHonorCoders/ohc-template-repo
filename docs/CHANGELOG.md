@@ -57,7 +57,7 @@ adheres to
 - **New pre-commit configuration** (`.pre-commit-config.yaml`) — hooks for
   clang-format, cmake-format, trailing whitespace, end-of-file, large files,
   merge conflicts, and more
-- **New secrets baseline** (`.secrets.baseline`) — pre-commit secret
+- **New secrets baseline** (`.github/.secrets.baseline`) — pre-commit secret
   detection baseline
 - **New Doxygen customization** (`docs/DoxyPage/custom.css`,
   `docs/DoxyPage/OHC-logo-lowresolution.png`) — custom styling and logo for
