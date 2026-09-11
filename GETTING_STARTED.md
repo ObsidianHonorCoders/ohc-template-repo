@@ -526,13 +526,6 @@ container guide.
 │   ├── devcontainer.json
 │   └── setup.sh
 ├── .github/
-│   ├── ISSUE_TEMPLATE/
-│   │   ├── bug_report.md
-│   │   ├── config.yml
-│   │   └── feature_request.md
-│   ├── PULL_REQUEST_TEMPLATE/
-│   │   ├── default.md
-│   │   └── release.md
 │   ├── workflows/
 │   │   ├── ci.yml
 │   │   └── docs.yml
@@ -548,12 +541,8 @@ container guide.
 │   │   └── OHC-logo-lowresolution.png
 │   ├── ARCHITECTURE.md
 │   ├── CHANGELOG.md
-│   ├── CODE_OF_CONDUCT.md
-│   ├── CONTRIBUTING.md
-│   ├── LICENSE
 │   ├── NAMING_CONVENTIONS.md
-│   ├── README.md
-│   └── SECURITY.md
+│   └── README.md
 ├── include/
 │   ├── architecture/
 │   │   ├── acquisition.hpp
@@ -578,6 +567,34 @@ container guide.
 ├── tests/
 │   ├── integration/
 │   │   └── test_pipeline.cpp
+│   ├── unit/
+│   │   └── test_template_module.cpp
+│   └── CMakeLists.txt
+├── .clang-format
+├── .editorconfig
+├── .gitattributes
+├── .gitignore
+├── .pre-commit-config.yaml
+├── .secrets.baseline
+├── CMakeLists.txt
+├── CMakePresets.json
+└── GETTING_STARTED.md
+```
+
+### Community Health Files
+
+This template uses **default community health files** from the organization's
+`.github` repository:
+
+- **CODE_OF_CONDUCT.md** — Community standards (inherited from org)
+- **CONTRIBUTING.md** — Contribution guidelines (inherited from org)
+- **SECURITY.md** — Security policy (inherited from org)
+- **SUPPORT.md** — Support and help resources (inherited from org)
+- **ISSUE_TEMPLATE/** — Issue templates (inherited from org)
+
+These files are automatically available to all repositories in the Obsidian
+Honor Coders organization. Repositories may override these with project-specific
+versions if needed.
 │   ├── unit/
 │   │   └── test_template_module.cpp
 │   └── CMakeLists.txt
