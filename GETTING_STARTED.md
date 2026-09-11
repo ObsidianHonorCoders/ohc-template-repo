@@ -579,7 +579,7 @@ container guide.
 ├── CMakeLists.txt
 ├── CMakePresets.json
 └── GETTING_STARTED.md
-```
+```text
 
 ### Community Health Files
 
@@ -595,6 +595,7 @@ This template uses **default community health files** from the organization's
 These files are automatically available to all repositories in the Obsidian
 Honor Coders organization. Repositories may override these with project-specific
 versions if needed.
+```text
 │   ├── unit/
 │   │   └── test_template_module.cpp
 │   └── CMakeLists.txt
@@ -607,7 +608,7 @@ versions if needed.
 ├── CMakeLists.txt
 ├── CMakePresets.json
 └── GETTING_STARTED.md
-```
+```text
 
 ---
 
