@@ -39,206 +39,132 @@ ctest --preset dev-test --output-on-failure
 2. [Personalize the Template](#personalize-the-template)
 3. [Local Development Workflows](#local-development-workflows)
 4. [IDE Setup](#ide-setup)
-5. [Understanding the CI Pipeline](#understanding-the-ci-pipeline)
+5. [Understanding the CI Pipeline](#understanding-ci-pipeline)
 6. [Common Tasks](#common-tasks)
-7. [Troubleshooting](#troubleshooting)
-8. [Template Structure Overview](#template-structure-overview)
+7. [Template Structure Overview](#template-structure-overview)
 
 ---
 
 ## Prerequisites
 
-### Required (All Platforms)
+See [docs/DEPENDENCIES.md](docs/DEPENDENCIES.md) for detailed
+installation instructions by platform.
 
-| Tool | Minimum Version | Install Command |
-| ------ | ----------------- | ----------------- |
-| **CMake** | 3.25+ | `apt install cmake` |
-| **Ninja** | 1.10+ | `apt install ninja-build` |
-| **C++ Compiler** | C++17 support | Platform notes below |
-| **Git** | 2.30+ | Standard install |
-
-### Platform-Specific Compiler Recommendations
-
-| Platform | Recommended | Alternative |
-| ---------- | ------------- | ------------- |
-| **Windows** | Visual Studio 2022 | MinGW-w64 |
-| **Linux** | GCC 11+ or Clang 14+ | Any recent compiler |
-| **macOS** | Xcode Command Line Tools | Homebrew GCC |
-
-### Optional but Recommended
-
-| Tool | Purpose | Install |
-| ------ | --------- | --------- |
-| **clang-format** | Formatting | Bundled with LLVM |
-| **clang-tidy** | Static analysis | Bundled with LLVM |
-| **Doxygen** | Docs | `apt install doxygen` |
-| **pre-commit** | Git hooks | `pip install pre-commit` |
-| **cppcheck** | Extra analysis | `apt install cppcheck` |
+**Quick summary**: You need CMake 3.25+, Ninja, Git, and a C++17
+compiler. All optional tools (clang-format, clang-tidy,
+Doxygen) are recommended but not required.
 
 ### Fastest Setup: Dev Container (Recommended)
 
-**No local installation needed!** Open in VS Code with the **Dev Containers**
-extension:
+**No local installation needed!** Open in VS Code with the
+**Dev Containers** extension:
 
-1. Install [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+1. Install [Docker Desktop](
+   https://www.docker.com/products/docker-desktop/)
 2. Install [VS Code](https://code.visualstudio.com/) and the
-   [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+   [Dev Containers extension](
+   https://marketplace.visualstudio.com/items?
+   itemName=ms-vscode-remote.remote-containers)
 3. Open this folder in VS Code → **Reopen in Container**
 
-The container includes CMake 3.28, Ninja, Clang 18, GCC 13, Doxygen,
-cppcheck, valgrind, lcov, pre-commit, and the VS Code C++ extensions.
+The container includes CMake 3.28, Ninja, Clang 18, GCC 13,
+Doxygen, cppcheck, valgrind, lcov, pre-commit, and VS Code
+C++ extensions.
 
 ---
 
 ## Personalize the Template
 
-Run the rename script **once** after cloning to make this template yours.
+Run the rename script **once** after cloning to make this
+template yours.
 
 ### Windows (PowerShell)
 
 ```powershell
-# Required parameters
-.\scripts\rename-template.ps1 \
-  -ProjectName "MyProject" \
-  -Author "Your Name" \
-  -Email "you@example.com" \
+.\scripts\rename-template.ps1 `
+  -ProjectName "MyProject" `
+  -Author "Your Name" `
+  -Email "you@example.com" `
   -GitHubOwner "your-github-username"
-
-# Optional parameters
-.\scripts\rename-template.ps1 \
-  -ProjectName "MyProject" \
-  -Author "Your Name" \
-  -Email "you@example.com" \
-  -GitHubOwner "your-github-username" \
-  -Description "My awesome C++ project" \
-  -License "MIT" \
-  -Version "0.1.0" \
-  -Namespace "myproject" \
-  -ExecutableName "myapp"
 ```
 
 ### Linux/macOS (Bash)
 
 ```bash
-# Make executable first
 chmod +x scripts/rename-template.sh
 
-# Required parameters
 ./scripts/rename-template.sh MyProject \
   -a "Your Name" \
   -e "you@example.com" \
   -g "your-github-username"
-
-# Optional parameters
-./scripts/rename-template.sh MyProject \
-  -a "Your Name" \
-  -e "you@example.com" \
-  -g "your-github-username" \
-  -d "My awesome C++ project" \
-  -l "MIT" \
-  -v "0.1.0" \
-  -n "myproject" \
-  -x "myapp"
-
-# Preview the rename without changing files
-./scripts/rename-template.sh MyProject --dry-run -y
 ```
 
-### Build Configuration Notes
+### Preview Changes (Dry Run)
 
-The template defaults to strict warnings-as-errors, but you can relax
-that for a new project when needed:
+See what will be renamed without modifying files:
 
 ```bash
-cmake -S . -B build -DOHC_ENABLE_WERROR=OFF
+./scripts/rename-template.sh MyProject --dry-run -y
 ```
-
-### What Gets Renamed
-
-| Placeholder | Replaced With | Files Affected |
-| ------------- | --------------- | ---------------- |
-| `ohc-template-repo` | Your project name | 30+ files |
-| `template_module` | Your module name | Source files |
-| `TemplateModule` | Your class name | Headers, source |
-| `TEMPLATE_MODULE` | Macro guard | Headers |
-| `template_module_app` | Executable name | CMake, scripts |
-| `template_module_tests` | Test target name | CMake, CI |
-| `calileus` | GitHub owner | CI, docs |
-| `Calileus` | Author name | Docs, CMake |
-| `calileus@example.com` | Email | Docs, CMake |
 
 ### After Renaming
 
 ```bash
-# 1. Verify the changes
-git diff --stat
-
-# 2. Commit the personalized template
 git add -A
 git commit -m "chore: personalize template for MyProject"
-
-# 3. Push to your new repository
-git remote set-url origin https://github.com/your-username/my-new-project.git
+git remote set-url origin YOUR_NEW_REPO_URL
 git push -u origin main
 ```
+
+See the rename scripts for all available options.
 
 ---
 
 ## Local Development Workflows
 
-### Preset-Based Workflows (Recommended)
-
-The template provides **CMake presets** for common scenarios.
+Use **CMake presets** for standard development workflows:
 
 ```bash
-cmake --list-presets
-```
-
-The current repository ships with two configured presets:
-
-| Preset | Use Case | Command |
-| -------- | ---------- | --------- |
-| `dev` | Debug work | `cmake --preset dev` |
-| `dev-build` | Build only | `cmake --build --preset dev-build` |
-| `dev-test` | Run tests only | `ctest --preset dev-test` |
-| `ci` | Release-mode CI-equivalent build | `cmake --preset ci` |
-| `ci-build` | Release build only | `cmake --build --preset ci-build` |
-| `ci-test` | Release test run | `ctest --preset ci-test` |
-
-The extra sanitizer and coverage presets mentioned in older template drafts
-are not defined in the current `CMakePresets.json` file.
-
-### Quick Commands Cheat Sheet
-
-```bash
-# Daily development
+# Daily development (Debug)
 cmake --preset dev
 cmake --build --preset dev-build
 ctest --preset dev-test --output-on-failure
 
-# One-liner
-cmake --preset dev && cmake --build --preset dev-build && ctest --preset dev-test
-
-# Release-mode CI-equivalent build
+# Release build (optimized)
 cmake --preset ci
 cmake --build --preset ci-build
-ctest --preset ci-test
-
-# Optional local coverage/sanitizer configuration
-# These are not shipped as presets in the current repository.
-cmake -S . -B build-coverage -DENABLE_COVERAGE=ON -DBUILD_TESTING=ON
-cmake --build build-coverage
-ctest --test-dir build-coverage --output-on-failure
-
-# Documentation build
-cmake -S . -B build-docs -DBUILD_TESTING=OFF -DBUILD_DOCS=ON
-cmake --build build-docs --target docs
-
-# Static analysis
-cmake --preset dev
-cmake --build --preset dev-build --target clang-tidy
-cppcheck --enable=all --std=c++17 --inline-suppr src/ include/
+ctest --preset ci-test --output-on-failure
 ```
+
+List all available presets:
+```bash
+cmake --list-presets
+```
+
+For detailed configuration options, CMake generators, sanitizers,
+coverage analysis, and more, see
+[docs/CMAKE_CONFIGURATION.md](docs/CMAKE_CONFIGURATION.md).
+
+### Pre-commit Git Hooks (Recommended)
+
+Set up automatic code quality checks on commit:
+
+```bash
+# Install pre-commit
+pip install pre-commit
+
+# Install repository hooks
+pre-commit install --install-hooks
+
+# Run all hooks manually
+pre-commit run --all-files
+
+# Run single hook
+pre-commit run clang-format --all-files
+```
+
+For troubleshooting pre-commit, see
+[docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md).
 
 ---
 
@@ -246,275 +172,108 @@ cppcheck --enable=all --std=c++17 --inline-suppr src/ include/
 
 ### VS Code (Recommended)
 
-**With Dev Container:** open the folder and choose **Reopen in Container**.
+**With Dev Container** (easiest): Open folder and choose
+**Reopen in Container** from the command palette.
 
-**Without Dev Container:** install these extensions:
+**Without Dev Container**: Install these extensions:
+- C/C++ Extension Pack
+- CMake Tools
+- Doxygen Documentation Generator
 
-- **C/C++ Extension Pack**
-- **CMake Tools**
-- **clang-format**
-- **Doxygen Documentation Generator**
+Settings in `.vscode/settings.json` are pre-configured for
+format on save and test integration.
 
-**Settings** in `.vscode/settings.json` are pre-configured for:
+### Other IDEs
 
-- format on save
-- CMake configure on folder open
-- test explorer integration
-
-### CLion / IntelliJ
-
-1. Open the folder as a CMake project.
-2. CLion auto-detects `CMakePresets.json`.
-3. Select **dev** or **release**.
-4. Run the generated test configurations.
-
-### Visual Studio 2022
-
-1. Open `CMakeLists.txt` as a CMake project.
-2. Select **dev** or **release**.
-3. Build → **Build All**.
-4. Use **Test Explorer** to run tests.
-
-### Neovim / Vim
-
-Use **cmake-tools.nvim** or **nvim-cmake**.
+- **CLion/IntelliJ**: Open folder as CMake project; auto-detects
+  CMakePresets.json
+- **Visual Studio 2022**: Open CMakeLists.txt as project
+- **Neovim/Vim**: Use cmake-tools.nvim or nvim-cmake
 
 ---
 
-## Understanding the CI Pipeline
+## Understanding CI Pipeline
 
-The `.github/workflows/ci.yml` file runs **7 jobs** for each workflow run.
-The full multi-platform matrix validates the template on Linux, Windows, and
-macOS so portability issues are caught early.
+The `.github/workflows/ci.yml` runs 7 jobs on every push and PR:
 
-| Job | Purpose | Triggers |
-| ----- | --------- | ---------- |
-| **pre-commit** | Runs repo hooks | Every push/PR |
-| **build-test** | Matrix build and tests | Every push/PR |
-| **static-analysis** | clang-tidy + cppcheck | Every push/PR |
-| **format-check** | Format verification | Every push/PR |
-| **security** | Trivy scan | Every push/PR |
-| **docs** | Doxygen build | Every push/PR |
-| **release** | Versioned release | Tag push |
+- **pre-commit**: Repository hooks (formatting, linting)
+- **build-test**: Multi-platform build matrix (5 compiler
+  combinations)
+- **static-analysis**: clang-tidy and cppcheck
+- **format-check**: Code formatting verification
+- **security**: Trivy vulnerability scan
+- **docs**: Doxygen build
+- **release**: Creates releases on version tags
 
-### Build Matrix
+Tests run on Linux (GCC/Clang), Windows (MSVC/MinGW), and
+macOS (Clang).
 
-| OS | Compiler | Build Type |
-| ---- | ---------- | ------------ |
-| Ubuntu Latest | GCC 13 | Debug, Release |
-| Ubuntu Latest | Clang 18 | Debug, Release |
-| Windows Latest | MSVC | Debug, Release |
-| Windows Latest | MinGW | Release |
-| macOS Latest | Clang | Debug, Release |
+View results in GitHub Actions tab or PR checks.
 
-### Viewing CI Results
-
-- GitHub Actions → select the workflow run
-- Security tab → code scanning alerts
-- PR checks → verify all required jobs pass
+For more details, see
+[.github/workflows/ci.yml](.github/workflows/ci.yml).
 
 ---
 
 ## Common Tasks
 
-### Add a New Source File
+### Add Source Files
 
-1. Create `include/myproject/new_module.hpp`.
-2. Create `src/new_module.cpp`.
-3. Add it in `CMakeLists.txt`:
+1. Create `include/myproject/new_module.hpp`
+2. Create `src/new_module.cpp`
+3. Update `CMakeLists.txt` to include the new file
+4. Rebuild: `cmake --build --preset dev-build`
 
-   ```cmake
-   target_sources(myproject_lib PRIVATE src/new_module.cpp)
-   ```
+### Add Tests
 
-4. Run `cmake --build --preset dev-build`.
+1. Create `tests/unit/test_new_module.cpp`
+2. Write test functions with `TEST(SuiteName, TestName)`
+3. CMake auto-discovers tests; rebuild to run
+4. Run: `ctest --preset dev-test --output-on-failure`
 
-### Add a New Test
+See [docs/TESTING.md](docs/TESTING.md) for detailed testing guide.
 
-1. Create `tests/test_new_module.cpp`.
-2. Add it to `tests/CMakeLists.txt`.
+### Enable Advanced Features
 
-   ```cmake
-   add_test(NAME new_module COMMAND myproject_tests)
-   ```
-
-   Or use `gtest_discover_tests()`.
-
-### Enable Sanitizers Locally
-
-```bash
-cmake -S . -B build-sanitize \
-  -DENABLE_SANITIZERS=ON \
-  -DCMAKE_BUILD_TYPE=Debug
-cmake --build build-sanitize
-ctest --test-dir build-sanitize --output-on-failure
-```
-
-### Generate Code Coverage
-
-```bash
-cmake -S . -B build-coverage \
-  -DENABLE_COVERAGE=ON \
-  -DBUILD_TESTING=ON
-cmake --build build-coverage
-ctest --test-dir build-coverage --output-on-failure
-```
-
-### Update Dependencies
-
-```bash
-# Pre-commit hooks
-pre-commit autoupdate
-
-# GitHub Actions
-# Check .github/dependabot.yml for the schedule
-```
+- **Sanitizers** (memory errors): See
+  [docs/CMAKE_OPTIONS.md](docs/CMAKE_OPTIONS.md#enable_sanitizers)
+- **Code coverage**: See
+  [docs/CMAKE_OPTIONS.md](docs/CMAKE_OPTIONS.md#enable_coverage)
+- **Documentation**: See
+  [docs/CMAKE_OPTIONS.md](docs/CMAKE_OPTIONS.md#build_docs)
 
 ### Format Code
 
 ```bash
-# Format all files
-clang-format -i src/*.cpp include/*.hpp tests/*.cpp main.cpp
-
-# Check only
-clang-format --dry-run --Werror src/*.cpp include/*.hpp tests/*.cpp main.cpp
+clang-format -i src/*.cpp include/*.hpp tests/*.cpp
 ```
 
-### Run Static Analysis
-
+Or use pre-commit to auto-fix:
 ```bash
-# clang-tidy
-cmake -S . -B build-analysis \
-  -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
-  -DCMAKE_CXX_CLANG_TIDY="/usr/bin/clang-tidy-15;-checks=clang-analyzer-*,\
-  bugprone-*,performance-*;-warnings-as-errors=*;\
-  -header-filter=^.*(src|include)/.*$" \
-  -DCMAKE_BUILD_TYPE=Debug \
-  -DBUILD_TESTING=OFF
-cmake --build build-analysis --parallel 4
-
-# cppcheck
-cppcheck --project=build-analysis/compile_commands.json \
-  --enable=all --std=c++17 --inline-suppr \
-  --suppress=missingIncludeSystem --error-exitcode=1
-```
-
-### Run pre-commit locally
-
-```bash
-# Create an isolated environment so pip is not blocked by Debian/Ubuntu PEP 668 rules
-python3 -m venv .venv
-. .venv/bin/activate
-
-# Install the tool in that environment
-python -m pip install --upgrade pip
-python -m pip install pre-commit
-
-# Install repo hooks so they run automatically on commit
-pre-commit install --install-hooks
-
-# Run the full hook set on demand
-pre-commit run --all-files
-
-# If a hook auto-fixes files, run it again to confirm the repo is clean
-pre-commit run --all-files
-
-# Run a single hook, for example format checks
 pre-commit run clang-format --all-files
 ```
 
-> On Ubuntu/Debian, `python3 -m pip install --user pre-commit` can fail because
-> the system Python is managed by PEP 668. A local virtual environment avoids
-> that problem.
+## Documentation
 
----
+See the full documentation suite in `docs/`:
 
-## Troubleshooting
-
-### "CMake could not find compiler"
-
-```bash
-# Windows: install Visual Studio Build Tools or MinGW
-# Linux: sudo apt install build-essential
-# macOS: xcode-select --install
-
-gcc --version
-clang --version
-cl --version  # Windows MSVC
-```
-
-This repository currently requires CMake 3.25+ and a C++17 compiler,
-as defined in `CMakeLists.txt`.
-
-### "Ninja not found"
-
-```bash
-# Windows
-winget install Ninja-build.Ninja
-
-# Linux
-sudo apt install ninja-build
-
-# macOS
-brew install ninja
-```
-
-### "Tests not found / not running"
-
-```bash
-# Ensure tests are enabled in CMake
-cmake --preset dev  # sets BUILD_TESTING=ON
-
-# Check test discovery
-ctest --preset dev-test -N
-
-# Verify test executable exists
-ls build/dev/tests/
-```
-
-### "clang-format not found"
-
-```bash
-# Install LLVM toolchain
-# Windows: winget install LLVM.LLVM
-# Linux: apt install clang-format
-# macOS: brew install llvm
-```
-
-### "Pre-commit hooks fail"
-
-```bash
-# Install hooks
-pre-commit install
-
-# Run manually
-pre-commit run --all-files
-
-# Auto-fix formatting
-pre-commit run clang-format --all-files
-
-# Update hook versions
-pre-commit autoupdate
-```
-
-### "Dev Container won't start"
-
-1. Ensure Docker Desktop is running.
-2. Check `.devcontainer/devcontainer.json` syntax.
-3. Try **Dev Containers: Rebuild Container**.
-4. Check the VS Code output for the Dev Containers log.
-
-The repository does include a `.devcontainer/` folder, but the actual setup
-is driven by the contents of that directory rather than a separate top-level
-container guide.
-
-### CI Fails Locally But Passes (or Vice Versa)
-
-| Issue | Fix |
-| ------- | ----- |
-| Line endings | Use `end_of_line = lf` in `.editorconfig` |
-| Compiler version | Match CI: GCC 13 / Clang 18 / MSVC 19.40 |
-| Missing deps | Use the dev container or install the same tools |
+- [docs/DEPENDENCIES.md](docs/DEPENDENCIES.md) — Installation
+  by platform
+- [docs/CMAKE_CONFIGURATION.md](
+  docs/CMAKE_CONFIGURATION.md) — CMake workflows and generators
+- [docs/CMAKE_OPTIONS.md](docs/CMAKE_OPTIONS.md) — All CMake
+  configuration options
+- [docs/TESTING.md](docs/TESTING.md) — Writing and running
+  tests
+- [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) — Common
+  issues and solutions
+- [docs/PACKAGING.md](docs/PACKAGING.md) — Distribution and
+  consumption
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — Project design
+  and layering
+- [docs/NAMING_CONVENTIONS.md](docs/NAMING_CONVENTIONS.md) —
+  Naming rules
+- [docs/README.md](docs/README.md) — Documentation hub
 
 ---
 

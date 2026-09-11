@@ -1,5 +1,6 @@
 name: CI
 
+# Triggers: main/develop branch pushes, PRs, version tags, manual runs
 on:
   push:
     branches: [main, master, develop]
@@ -7,6 +8,7 @@ on:
   pull_request:
   workflow_dispatch:
 
+# Required permissions for GitHub Actions
 permissions:
   contents: read
   security-events: write
@@ -16,7 +18,10 @@ env:
   CMAKE_VERSION: "3.28.0"
 
 jobs:
-  # Pre-commit checks (fast, runs first)
+  # ========== Pre-commit Checks (Fast, Runs First) ==========
+  # Runs: clang-format, cmake-format, trailing whitespace, etc.
+  # Scope: All files
+  # Fail fast: Yes (blocks other jobs)
   pre-commit:
     name: Pre-commit Checks
     runs-on: ubuntu-latest
@@ -42,7 +47,11 @@ jobs:
             exit 1
           }
 
-  # Multi-platform build & test matrix
+  # ========== Multi-Platform Build & Test Matrix ==========
+  # Tests 5 compiler combinations across 3 platforms
+  # Platforms: Linux (GCC/Clang), Windows (MSVC/MinGW), macOS
+  # Each combination builds Debug and Release configs
+  # Fail fast: No (continues despite failures, shows all issues)
   build-test:
     name: Build & Test (${{ matrix.os }}, ${{ matrix.compiler }})
     runs-on: ${{ matrix.os }}
@@ -111,7 +120,7 @@ jobs:
       - name: Build (Release)
         run: cmake --build --preset ci-build --parallel ${{ matrix.cores || 4 }}
 
-      - name: Run Tests (Release)
+      - name: Run ctest (Release)
         run: ctest --preset ci-test --output-on-failure
 
       - name: Upload build artifacts
@@ -122,7 +131,11 @@ jobs:
           path: build/
           retention-days: 7
 
-  # Static analysis
+  # ========== Static Analysis with clang-tidy & cppcheck ==========
+  # Detects: Memory issues, logical errors, performance problems
+  # Tools: clang-tidy (clang-analyzer, bugprone, performance checks)
+  #        cppcheck (general static analysis)
+  # Scope: Source and header files (not tests)
   static-analysis:
     name: Static Analysis
     runs-on: ubuntu-latest
@@ -152,7 +165,10 @@ jobs:
             --suppress=missingIncludeSystem \
             --error-exitcode=1
 
-  # Code formatting check
+  # ========== Code Formatting Check ==========
+  # Verifies: Code style matches .clang-format rules
+  # Tool: clang-format-15 (dry-run, no changes)
+  # Scope: All C++ source and header files
   format-check:
     name: Format Check
     runs-on: ubuntu-latest
@@ -168,7 +184,10 @@ jobs:
           find src include tests -name "*.cpp" -o -name "*.hpp" -o -name "*.h" | \
           xargs clang-format-15 --dry-run --Werror
 
-  # Security scanning
+  # ========== Security Scanning ==========
+  # Detects: Vulnerabilities in dependencies and code
+  # Tool: Trivy (container/filesystem vulnerability scanner)
+  # Output: SARIF format uploaded to GitHub Security tab
   security:
     name: Security Scan
     runs-on: ubuntu-latest
@@ -191,7 +210,10 @@ jobs:
         with:
           sarif_file: "trivy-results.sarif"
 
-  # Documentation build
+  # ========== Documentation Build ==========
+  # Generates: Doxygen API documentation from source code
+  # Output: Static HTML uploaded as artifact
+  # Deploy: Manual deployment to GitHub Pages via docs workflow
   docs:
     name: Build Documentation
     runs-on: ubuntu-latest
@@ -214,7 +236,11 @@ jobs:
           path: build-docs/html/
           retention-days: 30
 
-  # Release (triggered on tags)
+  # ========== Release Job (Triggered on Tags) ==========
+  # Condition: Only runs when git tag matches 'v*' (e.g., v1.0.0)
+  # Requires: All previous jobs pass (build-test, analysis, etc.)
+  # Action: Creates GitHub Release with artifacts and changelog
+  # Version: Derived from git tag (v1.0.0 → 1.0.0)
   release:
     name: Create Release
     if: startsWith(github.ref, 'refs/tags/v')
